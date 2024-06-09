@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkworkload_plannerz"]=self["webpackChunkworkload_plannerz"]||[]).push([[594],{5609:function(n,a,r){r.r(a),r.d(a,{default:function(){return k}});var u=r(6768);const e={class:"about"},t=(0,u.Lk)("h1",null,"This is an about page",-1),o=[t];function s(n,a){return(0,u.uX)(),(0,u.CE)("div",e,o)}var l=r(1241);const c={},i=(0,l.A)(c,[["render",s]]);var k=i}}]);
+//# sourceMappingURL=about.b8c51293.js.map
