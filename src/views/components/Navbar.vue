@@ -6,6 +6,7 @@
 
     <v-spacer></v-spacer>
 
+    <v-btn color="primary" @click="create">Créer un groupe</v-btn>
     <v-btn color="primary" @click="logout">Déconnexion</v-btn>
   </v-app-bar>
 </template>
@@ -22,6 +23,9 @@ export default defineComponent({
     logout() {
       // Implémente la logique de déconnexion
       console.log("Déconnexion");
+    },
+    create() {
+      console.log("Creer");
     },
   },
 });
