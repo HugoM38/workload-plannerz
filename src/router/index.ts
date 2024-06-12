@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomeView from "../views/Home_Page/HomeView.vue";
-import GroupeCreateView from "../views/Group_Param_Page/Group_Create_View.vue";
+import GroupCreateView from "../views/Group_Param_Page/Group_Create_View.vue";
+import GroupEditView from "../views/Group_Param_Page/Group_Edit_View.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -10,8 +11,14 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/create",
-    name: "groupe_creation",
-    component: GroupeCreateView,
+    name: "group_creation",
+    component: GroupCreateView,
+  },
+  {
+    path: "/group/:id/edit",
+    name: "group_edit",
+    component: GroupEditView,
+    props: true,
   },
 ];
 
