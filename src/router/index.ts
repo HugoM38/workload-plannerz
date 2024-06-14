@@ -5,6 +5,9 @@ import GroupEditView from "../views/Group_Param_Page/Group_Edit_View.vue";
 import TaskCreateView from "../views/Task_Param_Page/Task_Create_View.vue";
 import TaskEditView from "../views/Task_Param_Page/Task_Edit_View.vue";
 
+import LoginView from "../views/LoginView.vue";
+import RegisterView from "../views/RegisterView.vue";
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
@@ -33,6 +36,16 @@ const routes: Array<RouteRecordRaw> = [
     name: "task_edit",
     component: TaskEditView,
     props: true,
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: LoginView,
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: RegisterView,
   },
 ];
 

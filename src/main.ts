@@ -7,4 +7,4 @@ import { loadFonts } from "./plugins/webfontloader";
 
 loadFonts();
 
-createApp(App).use(router).use(store).use(vuetify).mount("#app");
+createApp(App).use(store).use(router).use(vuetify).mount("#app");

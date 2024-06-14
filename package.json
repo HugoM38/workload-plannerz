@@ -15,9 +15,12 @@
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.3",
-    "vuetify": "^3.0.0-beta.0",
+    "vuetify": "^3.6.0-beta.0.0",
     "vuex": "^4.0.0",
-    "webfontloader": "^1.0.0"
+    "webfontloader": "^1.0.0",
+    "axios": "^1.7.2",
+    "cors": "^2.8.5",
+    "http-proxy-middleware": "^3.0.0"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",
