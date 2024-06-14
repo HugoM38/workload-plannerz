@@ -17,7 +17,10 @@ export default defineComponent({
         const response = await axiosInstance.post("/auth/signin", form);
         console.log("Login successful:", response.data);
         localStorage.setItem("token", response.data.token);
-        router.push("/");
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        router.push("/").then(() => {
+          window.location.reload();
+        });
       } catch (error) {
         console.error("Login error:", error);
       }
