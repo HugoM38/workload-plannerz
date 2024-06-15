@@ -8,18 +8,9 @@
   </v-form>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
-
-export default defineComponent({
-  name: "TeamForm",
-  setup() {
-    const groupName = ref("");
-    return {
-      groupName,
-    };
-  },
-});
-</script>
+<script
+  lang="ts"
+  src="@/controllers/TeamControllers/TeamFormController.ts"
+></script>
 
 <style scoped></style>

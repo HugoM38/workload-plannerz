@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import HomeView from "../views/HomePages/HomeView.vue";
-import TeamCreateView from "../views/TeamParamPages/TeamCreateView.vue";
-import TeamEditView from "../views/TeamParamPages/TeamEditView.vue";
-import TaskCreateView from "../views/TaskParamPages/TaskCreateView.vue";
-import TaskEditView from "../views/TaskParamPages/TaskEditView.vue";
+import HomeView from "@/views/HomePages/HomeView.vue";
+import TeamCreateView from "@/views/TeamParamPages/TeamCreateView.vue";
+import TeamEditView from "@/views/TeamParamPages/TeamEditView.vue";
+import TaskCreateView from "@/views/TaskParamPages/TaskCreateView.vue";
+import TaskEditView from "@/views/TaskParamPages/TaskEditView.vue";
 
-import LoginView from "../views/AuthPages/LoginView.vue";
-import RegisterView from "../views/AuthPages/RegisterView.vue";
+import LoginView from "@/views/AuthPages/LoginView.vue";
+import RegisterView from "@/views/AuthPages/RegisterView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {

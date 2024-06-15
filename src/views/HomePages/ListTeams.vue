@@ -8,22 +8,9 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import ListItem from "../components/ListItemTeams.vue";
-
-export default defineComponent({
-  name: "ListTeams",
-  components: {
-    ListItem,
-  },
-  props: {
-    items: {
-      type: Array as () => string[],
-      required: true,
-    },
-  },
-});
-</script>
+<script
+  lang="ts"
+  src="@/controllers/TeamControllers/ListTeamsController.ts"
+></script>
 
 <style scoped></style>

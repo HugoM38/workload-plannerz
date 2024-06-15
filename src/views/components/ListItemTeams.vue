@@ -9,24 +9,9 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  name: "ListItemTeams",
-  props: {
-    text: {
-      type: String,
-      required: true,
-    },
-  },
-  methods: {
-    viewGroup() {
-      // Implémente la logique pour voir le groupe
-      console.log(`Voir le groupe: ${this.text}`);
-    },
-  },
-});
-</script>
+<script
+  lang="ts"
+  src="@/controllers/TeamControllers/ListItemTeamsController.ts"
+></script>
 
 <style scoped></style>
