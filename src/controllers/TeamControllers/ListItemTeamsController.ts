@@ -1,17 +1,18 @@
 import { defineComponent } from "vue";
+import { Team } from "@/models/Team";
 
 export default defineComponent({
   name: "ListItemTeams",
   props: {
-    text: {
-      type: String,
+    team: {
+      type: Object as () => Team,
       required: true,
     },
   },
   methods: {
     viewGroup() {
-      // Implémente la logique pour voir le groupe
-      console.log(`Voir le groupe: ${this.text}`);
+      const teamData = btoa(encodeURIComponent(JSON.stringify(this.team)));
+      this.$router.push(`/team/${teamData}`);
     },
   },
 });

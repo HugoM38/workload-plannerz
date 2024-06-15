@@ -8,7 +8,7 @@ export default defineComponent({
     ListItem,
   },
   props: {
-    items: {
+    teams: {
       type: Array as () => Team[],
       required: true,
     },

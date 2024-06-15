@@ -7,12 +7,18 @@ import TaskEditView from "@/views/TaskParamPages/TaskEditView.vue";
 
 import LoginView from "@/views/AuthPages/LoginView.vue";
 import RegisterView from "@/views/AuthPages/RegisterView.vue";
+import TeamDetailsView from "@/views/TeamParamPages/TeamDetailsView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "home",
     component: HomeView,
+  },
+  {
+    path: "/team/:teamData",
+    name: "team_view",
+    component: TeamDetailsView,
   },
   {
     path: "/create",

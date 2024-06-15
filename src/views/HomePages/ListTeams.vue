@@ -1,8 +1,8 @@
 <template>
   <v-container>
     <v-row>
-      <v-col v-for="(item, index) in items" :key="index" cols="12">
-        <ListItem :text="item.name" />
+      <v-col v-for="(team, index) in teams" :key="index" cols="12">
+        <ListItem :team="team" />
       </v-col>
     </v-row>
   </v-container>

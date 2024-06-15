@@ -1,7 +1,7 @@
 <template>
   <v-card class="ma-2">
     <v-card-text>
-      {{ text }}
+      {{ team.name }}
       <v-btn class="ml-4" color="primary" @click="viewGroup"
         >Voir le groupe</v-btn
       >
