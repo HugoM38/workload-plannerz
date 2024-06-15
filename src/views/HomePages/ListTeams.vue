@@ -10,10 +10,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import ListItem from "../components/ListItem_Groups.vue";
+import ListItem from "../components/ListItemTeams.vue";
 
 export default defineComponent({
-  name: "List_Groups",
+  name: "ListTeams",
   components: {
     ListItem,
   },

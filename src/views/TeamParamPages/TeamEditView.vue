@@ -3,7 +3,7 @@
     <v-main>
       <h1>Éditer le groupe {{ id }}</h1>
       <v-container>
-        <GroupForm />
+        <TeamForm />
         <SearchList />
         <v-btn color="primary" @click="edit_group">Modifier</v-btn>
       </v-container>
@@ -14,11 +14,11 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import GroupForm from "../components/Group_Form.vue";
-import SearchList from "../components/Search_List.vue";
+import TeamForm from "../components/TeamForm.vue";
+import SearchList from "../components/SearchList.vue";
 
 export default defineComponent({
-  name: "GroupeEdit",
+  name: "TeamEdit",
   props: {
     id: {
       type: String,
@@ -44,7 +44,7 @@ export default defineComponent({
     };
   },
   components: {
-    GroupForm,
+    TeamForm,
     SearchList,
   },
   methods: {

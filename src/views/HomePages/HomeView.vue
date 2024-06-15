@@ -1,19 +1,19 @@
 <template>
   <v-app>
     <v-container>
-      <List_Groups :items="listItems" />
+      <ListTeams :items="listItems" />
     </v-container>
   </v-app>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import List_Groups from "./List_Groups.vue";
+import ListTeams from "./ListTeams.vue";
 
 export default defineComponent({
-  name: "Home_Page",
+  name: "HomePage",
   components: {
-    List_Groups,
+    ListTeams,
   },
   data() {
     return {

@@ -13,7 +13,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "ListItem_Groups",
+  name: "ListItemTeams",
   props: {
     text: {
       type: String,

@@ -12,7 +12,7 @@
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: "GroupForm",
+  name: "TeamForm",
   setup() {
     const groupName = ref("");
     return {

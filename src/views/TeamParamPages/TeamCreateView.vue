@@ -2,7 +2,7 @@
   <v-app>
     <v-main>
       <v-container>
-        <GroupForm />
+        <TeamForm />
         <SearchList />
         <v-btn color="primary" @click="create_group">Créer</v-btn>
       </v-container>
@@ -12,13 +12,13 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import GroupForm from "../components/Group_Form.vue";
-import SearchList from "../components/Search_List.vue";
+import TeamForm from "../components/TeamForm.vue";
+import SearchList from "../components/SearchList.vue";
 
 export default defineComponent({
-  name: "GroupeCreation",
+  name: "TeamCreation",
   components: {
-    GroupForm,
+    TeamForm,
     SearchList,
   },
   methods: {

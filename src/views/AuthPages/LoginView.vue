@@ -29,6 +29,9 @@
   </div>
 </template>
 
-<script lang="ts" src="../controllers/LoginController.ts"></script>
+<script
+  lang="ts"
+  src="../../controllers/AuthControllers/LoginController.ts"
+></script>
 
-<style src="../styles/LoginStyle.css"></style>
+<style src="../../styles/LoginStyle.css"></style>

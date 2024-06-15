@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import HomeView from "../views/Home_Page/HomeView.vue";
-import GroupCreateView from "../views/Group_Param_Page/Group_Create_View.vue";
-import GroupEditView from "../views/Group_Param_Page/Group_Edit_View.vue";
-import TaskCreateView from "../views/Task_Param_Page/Task_Create_View.vue";
-import TaskEditView from "../views/Task_Param_Page/Task_Edit_View.vue";
+import HomeView from "../views/HomePages/HomeView.vue";
+import TeamCreateView from "../views/TeamParamPages/TeamCreateView.vue";
+import TeamEditView from "../views/TeamParamPages/TeamEditView.vue";
+import TaskCreateView from "../views/TaskParamPages/TaskCreateView.vue";
+import TaskEditView from "../views/TaskParamPages/TaskEditView.vue";
 
-import LoginView from "../views/LoginView.vue";
-import RegisterView from "../views/RegisterView.vue";
+import LoginView from "../views/AuthPages/LoginView.vue";
+import RegisterView from "../views/AuthPages/RegisterView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -16,23 +16,23 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/create",
-    name: "group_creation",
-    component: GroupCreateView,
+    name: "team_creation",
+    component: TeamCreateView,
   },
   {
-    path: "/group/:id/edit",
-    name: "group_edit",
-    component: GroupEditView,
+    path: "/team/:id/edit",
+    name: "team_edit",
+    component: TeamEditView,
     props: true,
   },
   {
-    path: "/group/:id/task/create",
+    path: "/team/:id/task/create",
     name: "task_create",
     component: TaskCreateView,
     props: true,
   },
   {
-    path: "/group/:id/task/:id_task/edit",
+    path: "/team/:id/task/:id_task/edit",
     name: "task_edit",
     component: TaskEditView,
     props: true,

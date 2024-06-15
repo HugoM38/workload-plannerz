@@ -14,10 +14,10 @@ module.exports = defineConfig({
 
   devServer: {
     proxy: {
-      '/api': {
-        target: 'https://workload-plannerz-api-8f1fb119eefd.herokuapp.com',
+      "/api": {
+        target: "https://workload-plannerz-api-8f1fb119eefd.herokuapp.com",
         changeOrigin: true,
-        pathRewrite: { '^/api': '' },
+        pathRewrite: { "^/api": "" },
       },
     },
   },

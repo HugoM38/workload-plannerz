@@ -6,8 +6,8 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn v-if="user.firstName && user.lastName" color="primary">
-      {{ user.firstName }} {{ user.lastName }}
+    <v-btn v-if="user.firstname && user.lastname" color="primary">
+      {{ user.firstname }} {{ user.lastname }}
     </v-btn>
     <v-btn v-if="isLoggedIn" color="primary" @click="createGroup"
       >Créer un groupe</v-btn
@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { user, isLoggedIn } from "@/models/UseUser";
-import useAuthController from "@/controllers/UseAuthController";
+import useAuthController from "@/controllers/AuthControllers/UseAuthController";
 
 export default defineComponent({
   name: "Plannerz_Navbar",

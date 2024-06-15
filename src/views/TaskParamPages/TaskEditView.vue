@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import TaskForm from "../components/Task_Form.vue";
+import TaskForm from "../components/TaskForm.vue";
 
 export default defineComponent({
   name: "TaskPage",

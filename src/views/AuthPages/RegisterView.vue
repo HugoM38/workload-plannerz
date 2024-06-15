@@ -45,6 +45,9 @@
     <router-view />
   </div>
 </template>
-<script lang="ts" src="../controllers/RegisterController.ts"></script>
+<script
+  lang="ts"
+  src="../../controllers/AuthControllers/RegisterController.ts"
+></script>
 
-<style src="../styles/RegisterStyle.css"></style>
+<style src="../../styles/RegisterStyle.css"></style>
