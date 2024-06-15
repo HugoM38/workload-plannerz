@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col v-for="(item, index) in items" :key="index" cols="12">
-        <ListItem :text="item" />
+        <ListItem :text="item.name" />
       </v-col>
     </v-row>
   </v-container>

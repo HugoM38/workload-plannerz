@@ -1,5 +1,6 @@
 import { defineComponent } from "vue";
 import ListItem from "@/views/components/ListItemTeams.vue";
+import { Team } from "@/models/Team";
 
 export default defineComponent({
   name: "ListTeams",
@@ -8,7 +9,7 @@ export default defineComponent({
   },
   props: {
     items: {
-      type: Array as () => string[],
+      type: Array as () => Team[],
       required: true,
     },
   },
