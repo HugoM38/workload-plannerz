@@ -1,7 +1,7 @@
 <template>
   <v-form>
     <v-text-field
-      v-model="groupName"
+      v-model="localTeamName"
       label="Nom du groupe"
       outlined
     ></v-text-field>

@@ -2,9 +2,8 @@
   <v-app>
     <v-main>
       <v-container>
-        <TeamForm />
-        <SearchList />
-        <v-btn color="primary" @click="create_group">Créer</v-btn>
+        <TeamForm v-model:name="teamName" />
+        <v-btn color="primary" @click="createTeam">Créer</v-btn>
       </v-container>
     </v-main>
   </v-app>

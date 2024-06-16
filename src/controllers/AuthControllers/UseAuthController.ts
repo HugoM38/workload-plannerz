@@ -34,14 +34,9 @@ export default function useAuthController() {
     });
   };
 
-  const createGroup = () => {
-    console.log("Creer");
-  };
-
   onMounted(checkAuth);
 
   return {
     logout,
-    createGroup,
   };
 }

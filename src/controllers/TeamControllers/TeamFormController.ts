@@ -1,11 +1,22 @@
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, watch } from "vue";
 
 export default defineComponent({
-  name: "TeamForm",
-  setup() {
-    const groupName = ref("");
+  name: "TeamFormController",
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props, { emit }) {
+    const localTeamName = ref(props.name);
+
+    watch(localTeamName, (newValue) => {
+      emit("update:name", newValue);
+    });
+
     return {
-      groupName,
+      localTeamName,
     };
   },
 });
