@@ -9,18 +9,22 @@
           <v-card-text>
             <v-row>
               <v-col cols="12">
-                <v-text-field
-                  v-model="team.name"
-                  label="Nom de l'équipe"
-                  readonly
-                ></v-text-field>
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title>Nom de l'équipe</v-list-item-title>
+                    <v-list-item-subtitle>{{ team.name }}</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
               </v-col>
               <v-col cols="12">
-                <v-text-field
-                  v-model="team.owner"
-                  label="Propriétaire"
-                  readonly
-                ></v-text-field>
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title>Propriétaire</v-list-item-title>
+                    <v-list-item-subtitle>{{
+                      `${owner.firstname} ${owner.lastname}`
+                    }}</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
               </v-col>
               <v-col cols="12">
                 <v-subheader>Membres de l'équipe</v-subheader>
@@ -46,6 +50,63 @@
                         </v-list-item-action>
                       </v-col>
                     </v-row>
+                  </v-list-item>
+                </v-list>
+              </v-col>
+              <v-col cols="12">
+                <v-subheader>Mes Tâches</v-subheader>
+                <v-list>
+                  <v-list-item v-for="(task, index) in userTasks" :key="index">
+                    <v-list-item-content>
+                      <v-list-item-title>{{ task.name }}</v-list-item-title>
+                      <v-list-item-subtitle
+                        >Priorité: {{ task.priority }}</v-list-item-subtitle
+                      >
+                      <v-list-item-subtitle v-if="task.owner">
+                        Attribué à: {{ getOwnerName(task.owner) }}
+                      </v-list-item-subtitle>
+                      <v-list-item-subtitle>
+                        Date de fin: {{ formatDate(task.dueDate) }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-col>
+              <v-col cols="12">
+                <v-subheader>Tâches en Attente</v-subheader>
+                <v-list>
+                  <v-list-item
+                    v-for="(task, index) in unownedTasks"
+                    :key="index"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title>{{ task.name }}</v-list-item-title>
+                      <v-list-item-subtitle
+                        >Priorité: {{ task.priority }}</v-list-item-subtitle
+                      >
+                      <v-list-item-subtitle>
+                        Date de fin: {{ formatDate(task.dueDate) }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-col>
+              <v-col cols="12">
+                <v-subheader>Tâches Assignées</v-subheader>
+                <v-list>
+                  <v-list-item v-for="(task, index) in ownedTasks" :key="index">
+                    <v-list-item-content>
+                      <v-list-item-title>{{ task.name }}</v-list-item-title>
+                      <v-list-item-subtitle>
+                        Priorité: {{ task.priority }}
+                      </v-list-item-subtitle>
+                      <v-list-item-subtitle v-if="task.owner">
+                        Attribué à: {{ getOwnerName(task.owner) }}
+                      </v-list-item-subtitle>
+                      <v-list-item-subtitle>
+                        Date de fin: {{ formatDate(task.dueDate) }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
                   </v-list-item>
                 </v-list>
               </v-col>
