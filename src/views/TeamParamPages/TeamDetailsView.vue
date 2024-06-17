@@ -54,61 +54,119 @@
                 </v-list>
               </v-col>
               <v-col cols="12">
-                <v-subheader>Mes Tâches</v-subheader>
-                <v-list>
-                  <v-list-item v-for="(task, index) in userTasks" :key="index">
-                    <v-list-item-content>
-                      <v-list-item-title>{{ task.name }}</v-list-item-title>
-                      <v-list-item-subtitle
-                        >Priorité: {{ task.priority }}</v-list-item-subtitle
-                      >
-                      <v-list-item-subtitle v-if="task.owner">
-                        Attribué à: {{ getOwnerName(task.owner) }}
-                      </v-list-item-subtitle>
-                      <v-list-item-subtitle>
-                        Date de fin: {{ formatDate(task.dueDate) }}
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list>
-              </v-col>
-              <v-col cols="12">
-                <v-subheader>Tâches en Attente</v-subheader>
-                <v-list>
-                  <v-list-item
-                    v-for="(task, index) in unownedTasks"
-                    :key="index"
-                  >
-                    <v-list-item-content>
-                      <v-list-item-title>{{ task.name }}</v-list-item-title>
-                      <v-list-item-subtitle
-                        >Priorité: {{ task.priority }}</v-list-item-subtitle
-                      >
-                      <v-list-item-subtitle>
-                        Date de fin: {{ formatDate(task.dueDate) }}
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list>
-              </v-col>
-              <v-col cols="12">
-                <v-subheader>Tâches Assignées</v-subheader>
-                <v-list>
-                  <v-list-item v-for="(task, index) in ownedTasks" :key="index">
-                    <v-list-item-content>
-                      <v-list-item-title>{{ task.name }}</v-list-item-title>
-                      <v-list-item-subtitle>
-                        Priorité: {{ task.priority }}
-                      </v-list-item-subtitle>
-                      <v-list-item-subtitle v-if="task.owner">
-                        Attribué à: {{ getOwnerName(task.owner) }}
-                      </v-list-item-subtitle>
-                      <v-list-item-subtitle>
-                        Date de fin: {{ formatDate(task.dueDate) }}
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list>
+                <v-row>
+                  <v-col cols="4">
+                    <v-card class="task-card my-tasks-card">
+                      <v-card-title>Mes Tâches</v-card-title>
+                      <v-card-text class="task-card-content">
+                        <v-list dense class="task-list">
+                          <v-list-item
+                            v-for="(task, index) in userTasks"
+                            :key="index"
+                            :class="
+                              task.state === 'En cours'
+                                ? 'task-in-progress'
+                                : 'task-completed'
+                            "
+                            class="task-list-item"
+                          >
+                            <v-list-item-content>
+                              <v-list-item-title>{{
+                                task.name
+                              }}</v-list-item-title>
+                              <v-list-item-subtitle
+                                >Priorité:
+                                {{ task.priority }}</v-list-item-subtitle
+                              >
+                              <v-list-item-subtitle>
+                                État: {{ task.state }}
+                              </v-list-item-subtitle>
+                              <v-list-item-subtitle v-if="task.owner">
+                                Attribué à: {{ getOwnerName(task.owner) }}
+                              </v-list-item-subtitle>
+                              <v-list-item-subtitle>
+                                Date de fin: {{ formatDate(task.dueDate) }}
+                              </v-list-item-subtitle>
+                            </v-list-item-content>
+                          </v-list-item>
+                        </v-list>
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                  <v-col cols="4">
+                    <v-card class="task-card unassigned-tasks-card">
+                      <v-card-title>Tâches en Attente</v-card-title>
+                      <v-card-text class="task-card-content">
+                        <v-list dense class="task-list">
+                          <v-list-item
+                            v-for="(task, index) in unownedTasks"
+                            :key="index"
+                            :class="
+                              task.state === 'En cours'
+                                ? 'task-in-progress'
+                                : 'task-completed'
+                            "
+                            class="task-list-item"
+                          >
+                            <v-list-item-content>
+                              <v-list-item-title>{{
+                                task.name
+                              }}</v-list-item-title>
+                              <v-list-item-subtitle
+                                >Priorité:
+                                {{ task.priority }}</v-list-item-subtitle
+                              >
+                              <v-list-item-subtitle>
+                                État: {{ task.state }}
+                              </v-list-item-subtitle>
+                              <v-list-item-subtitle>
+                                Date de fin: {{ formatDate(task.dueDate) }}
+                              </v-list-item-subtitle>
+                            </v-list-item-content>
+                          </v-list-item>
+                        </v-list>
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                  <v-col cols="4">
+                    <v-card class="task-card assigned-tasks-card">
+                      <v-card-title>Tâches Assignées</v-card-title>
+                      <v-card-text class="task-card-content">
+                        <v-list dense class="task-list">
+                          <v-list-item
+                            v-for="(task, index) in ownedTasks"
+                            :key="index"
+                            :class="
+                              task.state === 'En cours'
+                                ? 'task-in-progress'
+                                : 'task-completed'
+                            "
+                            class="task-list-item"
+                          >
+                            <v-list-item-content>
+                              <v-list-item-title>{{
+                                task.name
+                              }}</v-list-item-title>
+                              <v-list-item-subtitle
+                                >Priorité:
+                                {{ task.priority }}</v-list-item-subtitle
+                              >
+                              <v-list-item-subtitle>
+                                État: {{ task.state }}
+                              </v-list-item-subtitle>
+                              <v-list-item-subtitle v-if="task.owner">
+                                Attribué à: {{ getOwnerName(task.owner) }}
+                              </v-list-item-subtitle>
+                              <v-list-item-subtitle>
+                                Date de fin: {{ formatDate(task.dueDate) }}
+                              </v-list-item-subtitle>
+                            </v-list-item-content>
+                          </v-list-item>
+                        </v-list>
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                </v-row>
               </v-col>
             </v-row>
           </v-card-text>
@@ -127,4 +185,51 @@
   src="@/controllers/TeamControllers/TeamDetailsController.ts"
 ></script>
 
-<style scoped></style>
+<style scoped>
+.task-card {
+  height: 400px;
+  overflow-y: auto;
+}
+
+.task-card-content {
+  height: calc(100% - 64px);
+  overflow-y: auto;
+}
+
+.my-tasks-card {
+  background-color: #e0f7fa;
+}
+
+.unassigned-tasks-card {
+  background-color: #ffcc80;
+}
+
+.assigned-tasks-card {
+  background-color: #f8bbd0;
+}
+
+.task-list {
+  background-color: inherit;
+  padding: 8px;
+}
+
+.task-list-item {
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+  overflow: hidden;
+}
+
+.task-list-item > .v-list-item__content {
+  border-radius: inherit;
+}
+
+.task-in-progress {
+  background-color: #fff3e0;
+}
+
+.task-completed {
+  background-color: #e8f5e9;
+}
+</style>
