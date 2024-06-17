@@ -50,7 +50,15 @@ export default defineComponent({
       );
       this.teamMembers = response.data;
     } catch (error) {
-      //this.handleError(error);
+      const errorResponse = error as AxiosError<any>;
+      if (errorResponse.response && errorResponse.response.data) {
+        this.error = errorResponse.response.data.message || "An error occurred";
+      } else if (errorResponse.request) {
+        this.error = "No response received from server";
+      } else {
+        this.error = errorResponse.message || "An error occurred";
+      }
+      this.snackbar = true;
     }
 
     try {
@@ -65,7 +73,15 @@ export default defineComponent({
       );
       this.nonMembers = response.data;
     } catch (error) {
-      //this.handleError(error);
+      const errorResponse = error as AxiosError<any>;
+      if (errorResponse.response && errorResponse.response.data) {
+        this.error = errorResponse.response.data.message || "An error occurred";
+      } else if (errorResponse.request) {
+        this.error = "No response received from server";
+      } else {
+        this.error = errorResponse.message || "An error occurred";
+      }
+      this.snackbar = true;
     }
   },
   methods: {
@@ -82,17 +98,26 @@ export default defineComponent({
       console.log(`Modifier le groupe: ${this.team.name}`);
       try {
         const token: string = localStorage.getItem("token") || "";
-        const response = await axiosInstance.get(
-            `/teams/${this.team._id}/nonMembers`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
+        const response = await axiosInstance.patch(
+          `/teams/${this.team._id}/changeName`,
+          { name: this.team.name },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
-        this.nonMembers = response.data;
       } catch (error) {
-        //this.handleError(error);
+        const errorResponse = error as AxiosError<any>;
+        if (errorResponse.response && errorResponse.response.data) {
+          this.error =
+            errorResponse.response.data.message || "An error occurred";
+        } else if (errorResponse.request) {
+          this.error = "No response received from server";
+        } else {
+          this.error = errorResponse.message || "An error occurred";
+        }
+        this.snackbar = true;
       }
     },
   },

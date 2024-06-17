@@ -35,6 +35,10 @@
         </v-list-item-action>
       </v-list-item>
     </v-list>
+    <v-snackbar v-model="snackbar" :timeout="6000" top>
+      {{ error }}
+      <v-btn color="red" @click="snackbar = false">Close</v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 

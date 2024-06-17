@@ -11,6 +11,10 @@
           @update:teamMembers="updateTeamMembers"
           @update:nonMembers="updateNonMembers"
         />
+        <v-snackbar v-model="snackbar" :timeout="6000" top>
+          {{ error }}
+          <v-btn color="red" @click="snackbar = false">Close</v-btn>
+        </v-snackbar>
       </v-container>
     </v-main>
   </v-app>

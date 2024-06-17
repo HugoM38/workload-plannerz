@@ -9,6 +9,8 @@ export default defineComponent({
   data() {
     return {
       team: {} as Team,
+      error: "",
+      snackbar: false,
     };
   },
   props: {
@@ -32,7 +34,7 @@ export default defineComponent({
       console.error("Erreur lors du décodage des données de l'équipe", error);
     }
   },
-  setup(props, { emit }) {
+  setup(props) {
     const searchQuery = ref("");
     const filteredTeamMembers = computed(() => {
       return props.teamMembers.filter((member) =>
@@ -96,14 +98,22 @@ export default defineComponent({
             },
           }
         );
-        // Emit events to update the lists
         this.$emit("update:nonMembers", [...this.nonMembers, member]);
         this.$emit(
           "update:teamMembers",
           this.teamMembers.filter((teamMember) => teamMember._id !== member._id)
         );
       } catch (error) {
-        console.error(error);
+        const errorResponse = error as AxiosError<any>;
+        if (errorResponse.response && errorResponse.response.data) {
+          this.error =
+            errorResponse.response.data.message || "An error occurred";
+        } else if (errorResponse.request) {
+          this.error = "No response received from server";
+        } else {
+          this.error = errorResponse.message || "An error occurred";
+        }
+        this.snackbar = true;
       }
     },
   },
