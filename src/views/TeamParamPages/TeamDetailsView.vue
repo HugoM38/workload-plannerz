@@ -61,7 +61,7 @@
                       <v-card-text class="task-card-content">
                         <v-list dense class="task-list">
                           <v-list-item
-                            v-for="(task, index) in userTasks"
+                            v-for="(task, index) in sortedUserTasks"
                             :key="index"
                             :class="
                               task.state === 'En cours'
@@ -69,23 +69,14 @@
                                 : 'task-completed'
                             "
                             class="task-list-item"
+                            @click="openTaskDialog(task)"
                           >
                             <v-list-item-content>
                               <v-list-item-title>{{
                                 task.name
                               }}</v-list-item-title>
-                              <v-list-item-subtitle
-                                >Priorité:
-                                {{ task.priority }}</v-list-item-subtitle
-                              >
                               <v-list-item-subtitle>
-                                État: {{ task.state }}
-                              </v-list-item-subtitle>
-                              <v-list-item-subtitle v-if="task.owner">
-                                Attribué à: {{ getOwnerName(task.owner) }}
-                              </v-list-item-subtitle>
-                              <v-list-item-subtitle>
-                                Date de fin: {{ formatDate(task.dueDate) }}
+                                Priorité: {{ task.priority }}
                               </v-list-item-subtitle>
                             </v-list-item-content>
                           </v-list-item>
@@ -99,7 +90,7 @@
                       <v-card-text class="task-card-content">
                         <v-list dense class="task-list">
                           <v-list-item
-                            v-for="(task, index) in unownedTasks"
+                            v-for="(task, index) in sortedUnownedTasks"
                             :key="index"
                             :class="
                               task.state === 'En cours'
@@ -107,20 +98,14 @@
                                 : 'task-completed'
                             "
                             class="task-list-item"
+                            @click="openTaskDialog(task)"
                           >
                             <v-list-item-content>
                               <v-list-item-title>{{
                                 task.name
                               }}</v-list-item-title>
-                              <v-list-item-subtitle
-                                >Priorité:
-                                {{ task.priority }}</v-list-item-subtitle
-                              >
                               <v-list-item-subtitle>
-                                État: {{ task.state }}
-                              </v-list-item-subtitle>
-                              <v-list-item-subtitle>
-                                Date de fin: {{ formatDate(task.dueDate) }}
+                                Priorité: {{ task.priority }}
                               </v-list-item-subtitle>
                             </v-list-item-content>
                           </v-list-item>
@@ -134,7 +119,7 @@
                       <v-card-text class="task-card-content">
                         <v-list dense class="task-list">
                           <v-list-item
-                            v-for="(task, index) in ownedTasks"
+                            v-for="(task, index) in sortedOwnedTasks"
                             :key="index"
                             :class="
                               task.state === 'En cours'
@@ -142,23 +127,14 @@
                                 : 'task-completed'
                             "
                             class="task-list-item"
+                            @click="openTaskDialog(task)"
                           >
                             <v-list-item-content>
                               <v-list-item-title>{{
                                 task.name
                               }}</v-list-item-title>
-                              <v-list-item-subtitle
-                                >Priorité:
-                                {{ task.priority }}</v-list-item-subtitle
-                              >
                               <v-list-item-subtitle>
-                                État: {{ task.state }}
-                              </v-list-item-subtitle>
-                              <v-list-item-subtitle v-if="task.owner">
-                                Attribué à: {{ getOwnerName(task.owner) }}
-                              </v-list-item-subtitle>
-                              <v-list-item-subtitle>
-                                Date de fin: {{ formatDate(task.dueDate) }}
+                                Priorité: {{ task.priority }}
                               </v-list-item-subtitle>
                             </v-list-item-content>
                           </v-list-item>
@@ -171,6 +147,7 @@
             </v-row>
           </v-card-text>
         </v-card>
+
         <v-btn
           color="primary"
           @click="navigateToCreateTask"
@@ -178,6 +155,62 @@
         >
           Créer une tâche
         </v-btn>
+
+        <v-dialog v-model="taskDialog" max-width="600px">
+          <v-card>
+            <v-card-title class="headline text-center">{{
+              selectedTask?.name
+            }}</v-card-title>
+            <v-card-text>
+              <v-list dense>
+                <v-list-item>
+                  <v-list-item-title>Priorité:</v-list-item-title>
+                  <v-list-item-subtitle>{{
+                    selectedTask?.priority
+                  }}</v-list-item-subtitle>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>État:</v-list-item-title>
+                  <v-list-item-subtitle>{{
+                    selectedTask?.state
+                  }}</v-list-item-subtitle>
+                </v-list-item>
+                <v-list-item v-if="selectedTask?.owner">
+                  <v-list-item-title>Attribué à:</v-list-item-title>
+                  <v-list-item-subtitle>{{
+                    getOwnerName(selectedTask.owner)
+                  }}</v-list-item-subtitle>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>Date de fin:</v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{
+                      selectedTask?.dueDate
+                        ? formatDate(selectedTask.dueDate)
+                        : "Non définie"
+                    }}
+                  </v-list-item-subtitle>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>Date de création:</v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{
+                      selectedTask?.creationDate
+                        ? formatDate(selectedTask.creationDate)
+                        : "Non définie"
+                    }}
+                  </v-list-item-subtitle>
+                </v-list-item>
+              </v-list>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn color="blue darken-1" @click="taskDialog = false"
+                >Fermer</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
         <v-snackbar v-model="snackbar" :timeout="6000" top>
           {{ error }}
           <v-btn color="red" @click="snackbar = false">Fermer</v-btn>

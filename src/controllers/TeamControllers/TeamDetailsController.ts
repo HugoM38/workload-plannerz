@@ -1,9 +1,9 @@
+import { defineComponent } from "vue";
+import { Task } from "@/models/Task";
 import axiosInstance from "@/axiosConfig";
 import { Team } from "@/models/Team";
 import { User } from "@/models/User";
-import { Task } from "@/models/Task";
 import { AxiosError } from "axios";
-import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "TeamDetailsPage",
@@ -16,9 +16,22 @@ export default defineComponent({
       userTasks: [] as Task[],
       unownedTasks: [] as Task[],
       ownedTasks: [] as Task[],
+      selectedTask: null as Task | null,
+      taskDialog: false,
       error: "",
       snackbar: false,
     };
+  },
+  computed: {
+    sortedUserTasks() {
+      return [...this.userTasks].sort((a, b) => a.dueDate - b.dueDate);
+    },
+    sortedUnownedTasks() {
+      return [...this.unownedTasks].sort((a, b) => a.dueDate - b.dueDate);
+    },
+    sortedOwnedTasks() {
+      return [...this.ownedTasks].sort((a, b) => a.dueDate - b.dueDate);
+    },
   },
   async mounted() {
     const teamData = this.$route.params.teamData;
@@ -40,15 +53,7 @@ export default defineComponent({
       });
       this.owner = response.data;
     } catch (error) {
-      const errorResponse = error as AxiosError<any>;
-      if (errorResponse.response && errorResponse.response.data) {
-        this.error = errorResponse.response.data.message || "An error occurred";
-      } else if (errorResponse.request) {
-        this.error = "No response received from server";
-      } else {
-        this.error = errorResponse.message || "An error occurred";
-      }
-      this.snackbar = true;
+      this.handleError(error as AxiosError);
     }
 
     try {
@@ -63,15 +68,7 @@ export default defineComponent({
       );
       this.members = response.data;
     } catch (error) {
-      const errorResponse = error as AxiosError<any>;
-      if (errorResponse.response && errorResponse.response.data) {
-        this.error = errorResponse.response.data.message || "An error occurred";
-      } else if (errorResponse.request) {
-        this.error = "No response received from server";
-      } else {
-        this.error = errorResponse.message || "An error occurred";
-      }
-      this.snackbar = true;
+      this.handleError(error as AxiosError);
     }
 
     try {
@@ -92,15 +89,7 @@ export default defineComponent({
         (task: Task) => task.owner && task.owner !== userId
       );
     } catch (error) {
-      const errorResponse = error as AxiosError<any>;
-      if (errorResponse.response && errorResponse.response.data) {
-        this.error = errorResponse.response.data.message || "An error occurred";
-      } else if (errorResponse.request) {
-        this.error = "No response received from server";
-      } else {
-        this.error = errorResponse.message || "An error occurred";
-      }
-      this.snackbar = true;
+      this.handleError(error as AxiosError);
     }
   },
   methods: {
@@ -111,13 +100,29 @@ export default defineComponent({
       const owner = this.members.find((member) => member._id === ownerId);
       return owner ? `${owner.firstname} ${owner.lastname}` : "Inconnu";
     },
-    formatDate(timestamp: number) {
+    formatDate(timestamp?: number) {
+      if (!timestamp) return "Non définie";
       const date = new Date(timestamp);
       return date.toLocaleDateString("fr-FR");
     },
+
     navigateToCreateTask() {
       const path = `/team/${this.team._id}/task/create`;
       this.$router.push(path);
+    },
+    openTaskDialog(task: Task) {
+      this.selectedTask = task;
+      this.taskDialog = true;
+    },
+    handleError(error: AxiosError<any>) {
+      if (error.response && error.response.data) {
+        this.error = error.response.data.message || "An error occurred";
+      } else if (error.request) {
+        this.error = "No response received from server";
+      } else {
+        this.error = error.message || "An error occurred";
+      }
+      this.snackbar = true;
     },
   },
 });
