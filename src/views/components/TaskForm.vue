@@ -3,13 +3,6 @@
     <!-- Nom de la tâche -->
     <v-text-field v-model="localTaskName" label="Nom" outlined></v-text-field>
 
-    <!-- Description de la tâche -->
-    <v-textarea
-      v-model="localTaskDescription"
-      label="Description"
-      outlined
-    ></v-textarea>
-
     <!-- Niveau de priorité -->
     <v-select
       v-model="localPriority"
@@ -29,7 +22,7 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
-          v-model="localDueDate"
+          v-model="formattedDueDate"
           label="Date d'échéance"
           outlined
           readonly
@@ -50,5 +43,7 @@
   lang="ts"
   src="@/controllers/TaskControllers/TaskFormController.ts"
 ></script>
+
+<style src="@/styles/TaskStyle.css"></style>
 
 <style scoped></style>

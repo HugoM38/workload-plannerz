@@ -4,7 +4,6 @@
       <v-container>
         <TaskForm
           v-model:taskName="taskName"
-          v-model:taskDescription="taskDescription"
           v-model:priority="priority"
           v-model:dueDate="dueDate"
         />

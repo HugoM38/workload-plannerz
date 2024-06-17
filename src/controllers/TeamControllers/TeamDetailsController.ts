@@ -115,5 +115,9 @@ export default defineComponent({
       const date = new Date(timestamp);
       return date.toLocaleDateString("fr-FR");
     },
+    navigateToCreateTask() {
+      const path = `/team/${this.team._id}/task/create`;
+      this.$router.push(path);
+    },
   },
 });

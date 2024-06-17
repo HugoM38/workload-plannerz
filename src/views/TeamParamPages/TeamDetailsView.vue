@@ -171,9 +171,16 @@
             </v-row>
           </v-card-text>
         </v-card>
+        <v-btn
+          color="primary"
+          @click="navigateToCreateTask"
+          class="create-task-btn"
+        >
+          Créer une tâche
+        </v-btn>
         <v-snackbar v-model="snackbar" :timeout="6000" top>
           {{ error }}
-          <v-btn color="red" @click="snackbar = false">Close</v-btn>
+          <v-btn color="red" @click="snackbar = false">Fermer</v-btn>
         </v-snackbar>
       </v-container>
     </v-main>
@@ -231,5 +238,12 @@
 
 .task-completed {
   background-color: #e8f5e9;
+}
+
+/* Position the create task button at the bottom right */
+.create-task-btn {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
 }
 </style>

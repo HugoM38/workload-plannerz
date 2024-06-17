@@ -12,7 +12,7 @@ export default defineComponent({
       required: true,
     },
     priority: {
-      type: String,
+      type: [String, Number],
       required: true,
     },
     dueDate: {
@@ -24,23 +24,27 @@ export default defineComponent({
     const localTaskName = ref(props.taskName);
     const localTaskDescription = ref(props.taskDescription);
     const localPriority = ref(props.priority);
-    const localDueDate = ref(props.dueDate || null); // Initialisation à la date d'aujourd'hui
+    const localDueDate = ref(new Date(props.dueDate)); // Convertir la chaîne en objet Date
+    const formattedDueDate = ref(localDueDate.value.toLocaleDateString());
     const menu = ref(false);
-    const priorityLevels = ref(["Faible", "Moyenne", "Haute"]);
+    const priorityLevels = ref([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
-    // Mettre à jour les props à chaque changement local
     watch(localTaskName, (newValue) => emit("update:taskName", newValue));
     watch(localTaskDescription, (newValue) =>
       emit("update:taskDescription", newValue)
     );
     watch(localPriority, (newValue) => emit("update:priority", newValue));
-    watch(localDueDate, (newValue) => emit("update:dueDate", newValue));
+    watch(localDueDate, (newValue) => {
+      emit("update:dueDate", newValue.toISOString().substr(0, 10)); // Convertir l'objet Date en chaîne ISO
+      formattedDueDate.value = newValue.toLocaleDateString();
+    });
 
     return {
       localTaskName,
       localTaskDescription,
       localPriority,
       localDueDate,
+      formattedDueDate,
       menu,
       priorityLevels,
     };

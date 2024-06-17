@@ -38,10 +38,12 @@ const routes: Array<RouteRecordRaw> = [
     props: true,
   },
   {
-    path: "/team/:id/task/:id_task/edit",
-    name: "task_edit",
-    component: TaskEditView,
-    props: true,
+    path: "/team/:id/task/create",
+    name: "task_create",
+    component: TaskCreateView,
+    props: (route) => ({
+      teamId: route.params.id,
+    }),
   },
   {
     path: "/login",
