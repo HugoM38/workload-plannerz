@@ -156,54 +156,40 @@
           Créer une tâche
         </v-btn>
 
-        <v-dialog v-model="taskDialog" max-width="600px">
+        <v-dialog v-model="taskDialog" max-width="500px">
           <v-card>
-            <v-card-title class="headline text-center">{{
-              selectedTask?.name
-            }}</v-card-title>
+            <v-card-title class="headline">
+              {{ selectedTask?.name }}
+            </v-card-title>
             <v-card-text>
-              <v-list dense>
-                <v-list-item>
-                  <v-list-item-title>Priorité:</v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    selectedTask?.priority
-                  }}</v-list-item-subtitle>
-                </v-list-item>
-                <v-list-item>
-                  <v-list-item-title>État:</v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    selectedTask?.state
-                  }}</v-list-item-subtitle>
-                </v-list-item>
-                <v-list-item v-if="selectedTask?.owner">
-                  <v-list-item-title>Attribué à:</v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    getOwnerName(selectedTask.owner)
-                  }}</v-list-item-subtitle>
-                </v-list-item>
-                <v-list-item>
-                  <v-list-item-title>Date de fin:</v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{
-                      selectedTask?.dueDate
-                        ? formatDate(selectedTask.dueDate)
-                        : "Non définie"
-                    }}
-                  </v-list-item-subtitle>
-                </v-list-item>
-                <v-list-item>
-                  <v-list-item-title>Date de création:</v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{
-                      selectedTask?.creationDate
-                        ? formatDate(selectedTask.creationDate)
-                        : "Non définie"
-                    }}
-                  </v-list-item-subtitle>
-                </v-list-item>
-              </v-list>
+              <v-list-item-subtitle>
+                Priorité: {{ selectedTask?.priority }}
+              </v-list-item-subtitle>
+              <v-list-item-subtitle>
+                État: {{ selectedTask?.state }}
+              </v-list-item-subtitle>
+              <v-list-item-subtitle v-if="selectedTask?.owner">
+                Attribué à: {{ getOwnerName(selectedTask.owner) }}
+              </v-list-item-subtitle>
+              <v-list-item-subtitle>
+                Date de fin:
+                {{
+                  selectedTask?.dueDate
+                    ? formatDate(selectedTask.dueDate)
+                    : "Non définie"
+                }}
+              </v-list-item-subtitle>
+              <v-list-item-subtitle>
+                Date de création:
+                {{
+                  selectedTask?.creationDate
+                    ? formatDate(selectedTask.creationDate)
+                    : "Non définie"
+                }}
+              </v-list-item-subtitle>
             </v-card-text>
             <v-card-actions>
+              <v-spacer></v-spacer>
               <v-btn color="blue darken-1" @click="taskDialog = false"
                 >Fermer</v-btn
               >
@@ -226,6 +212,10 @@
 ></script>
 
 <style scoped>
+.v-dialog .v-card-title {
+  white-space: normal;
+}
+
 .task-card {
   height: 400px;
   overflow-y: auto;
