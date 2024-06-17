@@ -94,7 +94,8 @@ export default defineComponent({
   },
   methods: {
     viewTasks(memberId: string) {
-      console.log(memberId);
+      const path = `/team/${this.team._id}/${memberId}`;
+      this.$router.push(path);
     },
     getOwnerName(ownerId: string) {
       const owner = this.members.find((member) => member._id === ownerId);
