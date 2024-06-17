@@ -26,7 +26,7 @@ const routes: Array<RouteRecordRaw> = [
     component: TeamCreateView,
   },
   {
-    path: "/team/:id/edit",
+    path: "/team/:teamData/edit",
     name: "team_edit",
     component: TeamEditView,
     props: true,
