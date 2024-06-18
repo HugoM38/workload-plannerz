@@ -10,7 +10,7 @@ export default defineComponent({
     },
   },
   methods: {
-    viewGroup() {
+    viewTeam() {
       const teamData = btoa(encodeURIComponent(JSON.stringify(this.team)));
       this.$router.push(`/team/${teamData}`);
     },

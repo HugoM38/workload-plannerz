@@ -69,6 +69,4 @@
   src="@/controllers/TaskControllers/TaskCreateController.ts"
 ></script>
 
-<style scoped>
-@import "@/styles/TaskStyle.css";
-</style>
+<style scoped></style>

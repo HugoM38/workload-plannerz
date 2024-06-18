@@ -44,6 +44,4 @@
   src="@/controllers/TaskControllers/TaskFormController.ts"
 ></script>
 
-<style src="@/styles/TaskStyle.css"></style>
-
 <style scoped></style>

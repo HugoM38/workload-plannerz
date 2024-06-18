@@ -27,31 +27,43 @@
                 </v-list-item>
               </v-col>
               <v-col cols="12">
-                <v-subheader>Membres de l'équipe</v-subheader>
-                <v-list>
-                  <v-list-item v-for="(member, index) in members" :key="index">
-                    <v-row align="center" justify="space-between" no-gutters>
-                      <v-col>
-                        <v-list-item-content>
-                          <v-list-item-title
-                            >{{ member.firstname }}
-                            {{ member.lastname }}</v-list-item-title
-                          >
-                          <v-list-item-subtitle>{{
-                            member.email
-                          }}</v-list-item-subtitle>
-                        </v-list-item-content>
-                      </v-col>
-                      <v-col cols="auto">
-                        <v-list-item-action>
-                          <v-btn color="primary" @click="viewTasks(member._id)"
-                            >Voir</v-btn
-                          >
-                        </v-list-item-action>
-                      </v-col>
-                    </v-row>
-                  </v-list-item>
-                </v-list>
+                <v-card class="member-card">
+                  <v-card-title>Membres de l'équipe</v-card-title>
+                  <v-card-text class="member-card-content">
+                    <v-list>
+                      <v-list-item
+                        v-for="(member, index) in members"
+                        :key="index"
+                      >
+                        <v-row
+                          align="center"
+                          justify="space-between"
+                          no-gutters
+                        >
+                          <v-col>
+                            <v-list-item-content>
+                              <v-list-item-title>
+                                {{ member.firstname }} {{ member.lastname }}
+                              </v-list-item-title>
+                              <v-list-item-subtitle>
+                                {{ member.email }}
+                              </v-list-item-subtitle>
+                            </v-list-item-content>
+                          </v-col>
+                          <v-col cols="auto">
+                            <v-list-item-action>
+                              <v-btn
+                                color="primary"
+                                @click="viewTasks(member._id)"
+                                >Voir</v-btn
+                              >
+                            </v-list-item-action>
+                          </v-col>
+                        </v-row>
+                      </v-list-item>
+                    </v-list>
+                  </v-card-text>
+                </v-card>
               </v-col>
               <v-col cols="12">
                 <v-row justify="center">
@@ -224,6 +236,34 @@
 .task-card-content {
   height: calc(100% - 64px);
   overflow-y: auto;
+}
+
+.member-card {
+  background-color: #dcedc8;
+}
+
+.member-card-content {
+  margin-bottom: 24px;
+  max-height: 200px; /* Limiter la hauteur maximale */
+  overflow-y: auto; /* Rendre le contenu scrollable */
+}
+
+.member-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 8px 0;
+}
+
+.member-list-item:last-child {
+  border-bottom: none;
+}
+
+.member-list-item-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .my-tasks-card {

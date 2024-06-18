@@ -1,10 +1,9 @@
 <template>
   <v-app id="app">
-    <v-container class="login-container" fluid>
+    <v-container class="login-container bg-primary" fluid>
       <v-row align="center" justify="center">
         <v-col cols="12" md="6" lg="4">
-          <v-card class="login-box" elevation="10">
-            <v-card-title class="headline title">Login</v-card-title>
+          <v-card class="login-box bg-accent text-on-accent" elevation="10">
             <v-card-text>
               <v-form @submit.prevent="login">
                 <v-text-field
@@ -16,7 +15,7 @@
                   class="input-field"
                 ></v-text-field>
                 <v-text-field
-                  label="Password"
+                  label="Mot de passe"
                   v-model="form.password"
                   required
                   type="password"
@@ -29,14 +28,16 @@
                   block
                   large
                   class="login-btn"
-                  >Login</v-btn
+                  >Connexion</v-btn
                 >
               </v-form>
               <v-divider class="my-4"></v-divider>
               <div class="switch-link">
-                Don't have an account?
+                Vous n'avez pas de compte ?
                 <router-link to="/register">
-                  <v-btn text color="primary">Register</v-btn>
+                  <v-btn color="secondary" class="register-btn"
+                    >S'inscrire</v-btn
+                  >
                 </router-link>
               </div>
             </v-card-text>
@@ -53,4 +54,59 @@
   src="@/controllers/AuthControllers/LoginController.ts"
 ></script>
 
-<style src="@/styles/LoginStyle.css"></style>
+<style scoped>
+.login-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--v-theme-primary);
+}
+
+.login-box {
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-box:hover {
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+  color: var(--v-theme-on-accent);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.input-field {
+  background-color: var(--v-theme-surface);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.login-btn {
+  background-color: var(--v-theme-primary);
+  color: var(--v-theme-on-primary);
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.switch-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--v-theme-on-accent);
+  margin-top: 20px;
+}
+
+.register-btn {
+  margin-left: 10px;
+  color: var(--v-theme-secondary);
+}
+</style>
