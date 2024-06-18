@@ -173,7 +173,7 @@
         </v-btn>
 
         <v-dialog v-model="taskDialog" max-width="500px">
-          <v-card>
+          <v-card class="bg-accent text-on-accent">
             <v-card-title class="headline">
               {{ selectedTask?.name }}
             </v-card-title>
@@ -206,6 +206,11 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
+              <v-btn
+                color="green darken-1"
+                @click="closeTask(selectedTask?._id)"
+                >Terminer la tâche</v-btn
+              >
               <v-btn color="blue darken-1" @click="taskDialog = false"
                 >Fermer</v-btn
               >

@@ -115,6 +115,9 @@ export default defineComponent({
       this.selectedTask = task;
       this.taskDialog = true;
     },
+    closeTask(taskId: string) {
+      console.log(taskId);
+    },
     handleError(error: AxiosError<any>) {
       if (error.response && error.response.data) {
         this.error = error.response.data.message || "An error occurred";
