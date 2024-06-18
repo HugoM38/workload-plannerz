@@ -87,14 +87,25 @@
                             class="task-list-item"
                             @click="openTaskDialog(task)"
                           >
-                            <v-list-item-content>
-                              <v-list-item-title>{{
-                                task.name
-                              }}</v-list-item-title>
-                              <v-list-item-subtitle>
-                                Priorité: {{ task.priority }}
-                              </v-list-item-subtitle>
-                            </v-list-item-content>
+                            <v-row align="center" no-gutters>
+                              <v-col>
+                                <v-list-item-content>
+                                  <v-list-item-title>
+                                    {{ task.name }}
+                                  </v-list-item-title>
+                                  <v-list-item-subtitle>
+                                    Priorité: {{ task.priority }}
+                                  </v-list-item-subtitle>
+                                </v-list-item-content>
+                              </v-col>
+                              <v-col cols="auto">
+                                <v-list-item-content>
+                                  <v-list-item-subtitle>
+                                    {{ formatDate(task.dueDate) }}
+                                  </v-list-item-subtitle>
+                                </v-list-item-content>
+                              </v-col>
+                            </v-row>
                           </v-list-item>
                         </v-list>
                       </v-card-text>
@@ -116,14 +127,25 @@
                             class="task-list-item"
                             @click="openTaskDialog(task)"
                           >
-                            <v-list-item-content>
-                              <v-list-item-title>{{
-                                task.name
-                              }}</v-list-item-title>
-                              <v-list-item-subtitle>
-                                Priorité: {{ task.priority }}
-                              </v-list-item-subtitle>
-                            </v-list-item-content>
+                            <v-row align="center" no-gutters>
+                              <v-col>
+                                <v-list-item-content>
+                                  <v-list-item-title>
+                                    {{ task.name }}
+                                  </v-list-item-title>
+                                  <v-list-item-subtitle>
+                                    Priorité: {{ task.priority }}
+                                  </v-list-item-subtitle>
+                                </v-list-item-content>
+                              </v-col>
+                              <v-col cols="auto">
+                                <v-list-item-content>
+                                  <v-list-item-subtitle>
+                                    {{ formatDate(task.dueDate) }}
+                                  </v-list-item-subtitle>
+                                </v-list-item-content>
+                              </v-col>
+                            </v-row>
                           </v-list-item>
                         </v-list>
                       </v-card-text>
@@ -145,14 +167,25 @@
                             class="task-list-item"
                             @click="openTaskDialog(task)"
                           >
-                            <v-list-item-content>
-                              <v-list-item-title>{{
-                                task.name
-                              }}</v-list-item-title>
-                              <v-list-item-subtitle>
-                                Priorité: {{ task.priority }}
-                              </v-list-item-subtitle>
-                            </v-list-item-content>
+                            <v-row align="center" no-gutters>
+                              <v-col>
+                                <v-list-item-content>
+                                  <v-list-item-title>
+                                    {{ task.name }}
+                                  </v-list-item-title>
+                                  <v-list-item-subtitle>
+                                    Priorité: {{ task.priority }}
+                                  </v-list-item-subtitle>
+                                </v-list-item-content>
+                              </v-col>
+                              <v-col cols="auto">
+                                <v-list-item-content>
+                                  <v-list-item-subtitle>
+                                    {{ formatDate(task.dueDate) }}
+                                  </v-list-item-subtitle>
+                                </v-list-item-content>
+                              </v-col>
+                            </v-row>
                           </v-list-item>
                         </v-list>
                       </v-card-text>
@@ -208,7 +241,7 @@
               <v-spacer></v-spacer>
               <v-btn
                 color="green darken-1"
-                @click="closeTask(selectedTask?._id)"
+                @click="closeTask(selectedTask!._id)"
                 >Terminer la tâche</v-btn
               >
               <v-btn color="blue darken-1" @click="taskDialog = false"
@@ -304,11 +337,11 @@
 }
 
 .task-in-progress {
-  background-color: #fff3e0;
+  background-color: #e1c392;
 }
 
 .task-completed {
-  background-color: #e8f5e9;
+  background-color: #89e661;
 }
 
 .create-task-btn {

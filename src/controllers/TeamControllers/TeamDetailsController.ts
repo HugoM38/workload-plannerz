@@ -115,8 +115,30 @@ export default defineComponent({
       this.selectedTask = task;
       this.taskDialog = true;
     },
-    closeTask(taskId: string) {
-      console.log(taskId);
+    async closeTask(taskId: string) {
+      this.taskDialog = false;
+      try {
+        const token: string = localStorage.getItem("token") || "";
+        const response = await axiosInstance.patch(
+          `/tasks/${taskId}/validate`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(response.data);
+
+        this.tasks = this.tasks.map((task) => {
+          if (task._id === taskId) {
+            task.state = "Validée";
+          }
+          return task;
+        });
+      } catch (error) {
+        this.handleError(error as AxiosError);
+      }
     },
     handleError(error: AxiosError<any>) {
       if (error.response && error.response.data) {
