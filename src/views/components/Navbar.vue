@@ -1,18 +1,35 @@
 <template>
   <v-app-bar app>
-    <v-app-bar-nav-icon @click="toggleDrawer" class="d-md-none"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon
+      @click="toggleDrawer"
+      class="d-md-none"
+    ></v-app-bar-nav-icon>
 
     <v-toolbar-title @click="navigateToHome">Workload Plannerz</v-toolbar-title>
 
     <v-spacer></v-spacer>
 
-    <v-btn v-if="user.firstname && user.lastname" color="primary" class="d-none d-md-flex">
+    <v-btn
+      v-if="user.firstname && user.lastname"
+      color="primary"
+      class="d-none d-md-flex"
+    >
       {{ user.firstname }} {{ user.lastname }}
     </v-btn>
-    <v-btn v-if="isLoggedIn" color="primary" @click="createTeam" class="d-none d-md-flex">
+    <v-btn
+      v-if="isLoggedIn"
+      color="primary"
+      @click="createTeam"
+      class="d-none d-md-flex"
+    >
       Créer un groupe
     </v-btn>
-    <v-btn v-if="isLoggedIn" color="primary" @click="logout" class="d-none d-md-flex">
+    <v-btn
+      v-if="isLoggedIn"
+      color="primary"
+      @click="logout"
+      class="d-none d-md-flex"
+    >
       Déconnexion
     </v-btn>
   </v-app-bar>
@@ -20,7 +37,9 @@
   <v-navigation-drawer v-model="drawer" app temporary>
     <v-list>
       <v-list-item v-if="user.firstname && user.lastname">
-        <v-list-item-title>{{ user.firstname }} {{ user.lastname }}</v-list-item-title>
+        <v-list-item-title
+          >{{ user.firstname }} {{ user.lastname }}</v-list-item-title
+        >
       </v-list-item>
       <v-list-item v-if="isLoggedIn" @click="createTeam">
         <v-list-item-title>Créer un groupe</v-list-item-title>
