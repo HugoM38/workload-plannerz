@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <v-main>
+    <v-main class="bg-primary">
       <v-container>
-        <v-card>
+        <v-card class="bg-accent text-on-accent">
           <v-card-title>
             <h1>Détails de l'équipe</h1>
           </v-card-title>
@@ -21,7 +21,7 @@
                   <v-list-item-content>
                     <v-list-item-title>Propriétaire</v-list-item-title>
                     <v-list-item-subtitle>{{
-                      `${owner.firstname} ${owner.lastname}`
+                      `${owner.firstname || ""} ${owner.lastname || ""}`
                     }}</v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
@@ -43,7 +43,8 @@
                           <v-col>
                             <v-list-item-content>
                               <v-list-item-title>
-                                {{ member.firstname }} {{ member.lastname }}
+                                {{ member.firstname }}
+                                {{ member.lastname }}
                               </v-list-item-title>
                               <v-list-item-subtitle>
                                 {{ member.email }}
@@ -161,11 +162,11 @@
         </v-card>
 
         <v-btn
-          color="primary"
+          color="accent"
           @click="navigateToCreateTask"
           class="create-task-btn"
         >
-          Créer une tâche
+          Créer
         </v-btn>
 
         <v-dialog v-model="taskDialog" max-width="500px">
@@ -239,13 +240,14 @@
 }
 
 .member-card {
-  background-color: #dcedc8;
+  background-color: #c6c5c5;
+  border: 4px solid #dd7373;
 }
 
 .member-card-content {
   margin-bottom: 24px;
-  max-height: 200px; /* Limiter la hauteur maximale */
-  overflow-y: auto; /* Rendre le contenu scrollable */
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .member-list-item {
@@ -260,26 +262,24 @@
   border-bottom: none;
 }
 
-.member-list-item-content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
 .my-tasks-card {
-  background-color: #e0f7fa;
+  background-color: #c6c5c5;
+  border: 4px solid #e2c044;
 }
 
 .unassigned-tasks-card {
-  background-color: #ffcc80;
+  background-color: #c6c5c5;
+  border: 4px solid #a64253;
 }
 
 .assigned-tasks-card {
-  background-color: #f8bbd0;
+  background-color: #c6c5c5;
+  border: 4px solid #d56aa0;
 }
 
 .task-list {
   background-color: inherit;
+  border-radius: 8px;
   padding: 8px;
 }
 

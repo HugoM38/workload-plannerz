@@ -19,7 +19,7 @@ export default createVuetify({
         colors: {
           primary: "#0F8B8D",
           secondary: "#BDEDE0",
-          accent: "#1B2F33",
+          accent: "#21393E",
           onAccent: "#FFFFFF",
           surface: "#FFFFFF",
           onPrimary: "#FFFFFF",
