@@ -1,23 +1,39 @@
 <template>
   <v-app-bar app>
-    <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon @click="toggleDrawer" class="d-md-none"></v-app-bar-nav-icon>
 
-    <v-toolbar-title>Mon App</v-toolbar-title>
+    <v-toolbar-title @click="navigateToHome">Workload Plannerz</v-toolbar-title>
 
     <v-spacer></v-spacer>
 
-    <v-btn v-if="user.firstname && user.lastname" color="primary">
+    <v-btn v-if="user.firstname && user.lastname" color="primary" class="d-none d-md-flex">
       {{ user.firstname }} {{ user.lastname }}
     </v-btn>
-    <v-btn v-if="isLoggedIn" color="primary" @click="createTeam"
-      >Créer un groupe</v-btn
-    >
-    <v-btn v-if="isLoggedIn" color="primary" @click="logout">Déconnexion</v-btn>
+    <v-btn v-if="isLoggedIn" color="primary" @click="createTeam" class="d-none d-md-flex">
+      Créer un groupe
+    </v-btn>
+    <v-btn v-if="isLoggedIn" color="primary" @click="logout" class="d-none d-md-flex">
+      Déconnexion
+    </v-btn>
   </v-app-bar>
+
+  <v-navigation-drawer v-model="drawer" app temporary>
+    <v-list>
+      <v-list-item v-if="user.firstname && user.lastname">
+        <v-list-item-title>{{ user.firstname }} {{ user.lastname }}</v-list-item-title>
+      </v-list-item>
+      <v-list-item v-if="isLoggedIn" @click="createTeam">
+        <v-list-item-title>Créer un groupe</v-list-item-title>
+      </v-list-item>
+      <v-list-item v-if="isLoggedIn" @click="logout">
+        <v-list-item-title>Déconnexion</v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { user, isLoggedIn } from "@/models/UseUser";
 import useAuthController from "@/controllers/AuthControllers/UseAuthController";
 import router from "@/router";
@@ -26,13 +42,19 @@ export default defineComponent({
   name: "Plannerz_Navbar",
   setup() {
     const { logout } = useAuthController();
+    const drawer = ref(false);
 
     const toggleDrawer = () => {
-      // Implement logic to show/hide the drawer (side menu) if necessary
+      drawer.value = !drawer.value;
     };
 
     const createTeam = () => {
       router.push("/create");
+      drawer.value = false;
+    };
+
+    const navigateToHome = () => {
+      router.push("/");
     };
 
     return {
@@ -41,6 +63,8 @@ export default defineComponent({
       createTeam,
       user,
       isLoggedIn,
+      navigateToHome,
+      drawer,
     };
   },
 });

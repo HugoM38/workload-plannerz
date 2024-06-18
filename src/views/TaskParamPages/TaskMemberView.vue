@@ -19,10 +19,10 @@
                 </v-list-item>
               </v-col>
               <v-col cols="12">
-                <v-row>
-                  <v-col cols="4">
+                <v-row justify="center">
+                  <v-col cols="12" md="6">
                     <v-card class="task-card member-tasks-card">
-                      <v-card-title>Mes Tâches</v-card-title>
+                      <v-card-title>Tâches de l'utilisateur</v-card-title>
                       <v-card-text class="task-card-content">
                         <v-list dense class="task-list">
                           <v-list-item

@@ -54,8 +54,8 @@
                 </v-list>
               </v-col>
               <v-col cols="12">
-                <v-row>
-                  <v-col cols="4">
+                <v-row justify="center">
+                  <v-col cols="12" md="6" lg="4">
                     <v-card class="task-card my-tasks-card">
                       <v-card-title>Mes Tâches</v-card-title>
                       <v-card-text class="task-card-content">
@@ -84,7 +84,7 @@
                       </v-card-text>
                     </v-card>
                   </v-col>
-                  <v-col cols="4">
+                  <v-col cols="12" md="6" lg="4">
                     <v-card class="task-card unassigned-tasks-card">
                       <v-card-title>Tâches en Attente</v-card-title>
                       <v-card-text class="task-card-content">
@@ -113,7 +113,7 @@
                       </v-card-text>
                     </v-card>
                   </v-col>
-                  <v-col cols="4">
+                  <v-col cols="12" md="6" lg="4">
                     <v-card class="task-card assigned-tasks-card">
                       <v-card-title>Tâches Assignées</v-card-title>
                       <v-card-text class="task-card-content">
