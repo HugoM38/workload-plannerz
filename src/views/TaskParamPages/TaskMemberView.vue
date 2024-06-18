@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <v-main>
+    <v-main class="bg-primary">
       <v-container>
-        <v-card>
+        <v-card class="bg-accent text-on-accent">
           <v-card-title>
             <h1>{{ `${member.firstname || ""} ${member.lastname || ""}` }}</h1>
           </v-card-title>
@@ -18,45 +18,55 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-col>
-              <v-col cols="12">
-                <v-row justify="center">
-                  <v-col cols="12" md="6">
-                    <v-card class="task-card member-tasks-card">
-                      <v-card-title>Tâches de l'utilisateur</v-card-title>
-                      <v-card-text class="task-card-content">
-                        <v-list dense class="task-list">
-                          <v-list-item
-                            v-for="(task, index) in sortedTasks"
-                            :key="index"
-                            :class="
-                              task.state === 'En cours'
-                                ? 'task-in-progress'
-                                : 'task-completed'
-                            "
-                            class="task-list-item"
-                            @click="openTaskDialog(task)"
-                          >
-                            <v-list-item-content>
-                              <v-list-item-title>{{
-                                task.name
-                              }}</v-list-item-title>
-                              <v-list-item-subtitle>
-                                Priorité: {{ task.priority }}
-                              </v-list-item-subtitle>
-                            </v-list-item-content>
-                          </v-list-item>
-                        </v-list>
-                      </v-card-text>
-                    </v-card>
-                  </v-col>
-                </v-row>
-              </v-col>
+              <v-row justify="center">
+                <v-col cols="12" md="8" lg="6">
+                  <v-card class="member-tasks-card">
+                    <v-card-title>Tâches de l'utilisateur</v-card-title>
+                    <v-card-text class="task-card-content">
+                      <v-list dense class="task-list">
+                        <v-list-item
+                          v-for="(task, index) in sortedTasks"
+                          :key="index"
+                          :class="
+                            task.state === 'En cours'
+                              ? 'task-in-progress'
+                              : 'task-completed'
+                          "
+                          class="task-list-item"
+                          @click="openTaskDialog(task)"
+                        >
+                          <v-row align="center" no-gutters>
+                            <v-col>
+                              <v-list-item-content>
+                                <v-list-item-title>{{
+                                  task.name
+                                }}</v-list-item-title>
+                                <v-list-item-subtitle
+                                  >Priorité:
+                                  {{ task.priority }}</v-list-item-subtitle
+                                >
+                              </v-list-item-content>
+                            </v-col>
+                            <v-col cols="auto">
+                              <v-list-item-content>
+                                <v-list-item-subtitle>{{
+                                  formatDate(task.dueDate)
+                                }}</v-list-item-subtitle>
+                              </v-list-item-content>
+                            </v-col>
+                          </v-row>
+                        </v-list-item>
+                      </v-list>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+              </v-row>
             </v-row>
           </v-card-text>
         </v-card>
 
         <v-dialog v-model="taskDialog" max-width="500px">
-          <v-card>
+          <v-card class="bg-accent text-on-accent">
             <v-card-title class="headline">
               {{ selectedTask?.name }}
             </v-card-title>
@@ -89,6 +99,11 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
+              <v-btn
+                color="green darken-1"
+                @click="closeTask(selectedTask!._id)"
+                >Terminer la tâche</v-btn
+              >
               <v-btn color="blue darken-1" @click="taskDialog = false"
                 >Fermer</v-btn
               >
@@ -115,22 +130,22 @@
   white-space: normal;
 }
 
-.task-card {
-  height: 400px;
-  overflow-y: auto;
-}
-
 .task-card-content {
   height: calc(100% - 64px);
   overflow-y: auto;
 }
 
 .member-tasks-card {
-  background-color: #e0f7fa;
+  background-color: #c6c5c5;
+  border: 4px solid #e0f7fa;
+  height: 420px;
+  overflow-y: auto;
+  margin-bottom: 24px;
 }
 
 .task-list {
   background-color: inherit;
+  border-radius: 8px;
   padding: 8px;
 }
 
@@ -147,10 +162,16 @@
 }
 
 .task-in-progress {
-  background-color: #fff3e0;
+  background-color: #e1c392;
 }
 
 .task-completed {
-  background-color: #e8f5e9;
+  background-color: #89e661;
+}
+
+.create-task-btn {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
 }
 </style>
