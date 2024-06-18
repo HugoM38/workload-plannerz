@@ -45,7 +45,7 @@
                       <v-col cols="auto">
                         <v-list-item-action>
                           <v-btn color="primary" @click="viewTasks(member._id)"
-                            >Voir les tâches</v-btn
+                            >Voir</v-btn
                           >
                         </v-list-item-action>
                       </v-col>
@@ -263,7 +263,6 @@
   background-color: #e8f5e9;
 }
 
-/* Position the create task button at the bottom right */
 .create-task-btn {
   position: fixed;
   bottom: 16px;
