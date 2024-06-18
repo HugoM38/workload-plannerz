@@ -31,10 +31,11 @@
                   <v-card class="member-card">
                     <v-card-title>Membres de l'équipe</v-card-title>
                     <v-card-text class="member-card-content">
-                      <v-list>
+                      <v-list class="member-list">
                         <v-list-item
                           v-for="(member, index) in members"
                           :key="index"
+                          class="member-list-item"
                         >
                           <v-row
                             align="center"
@@ -252,16 +253,16 @@
   overflow-y: auto;
 }
 
-.member-list-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #e0e0e0;
-  padding: 8px 0;
+.member-list {
+  background-color: inherit;
+  padding: 8px;
 }
 
-.member-list-item:last-child {
-  border-bottom: none;
+.member-list-item {
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #fff3e0;
 }
 
 .my-tasks-card {
