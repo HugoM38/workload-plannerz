@@ -24,7 +24,7 @@ export default defineComponent({
     return {
       form: reactive({
         taskName: "",
-        priority: "0",
+        priority: "1",
         dueDate: new Date().toISOString().substr(0, 10),
         timeEstimation: 0,
         selectedMember: "",
@@ -45,13 +45,6 @@ export default defineComponent({
         team: this.$route.params.id,
         timeEstimation: this.form.timeEstimation,
       };
-    },
-    formattedTaskData(): string {
-      const data: TaskData = { ...this.taskData };
-      if (this.form.selectedMember) {
-        data.owner = this.form.selectedMember;
-      }
-      return JSON.stringify(data, null, 2);
     },
   },
   async mounted() {

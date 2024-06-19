@@ -6,15 +6,6 @@ import { handleAxiosError } from "@/utils/errorHandler";
 import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
 import { User } from "@/models/User";
 
-interface TaskData {
-  name: string;
-  priority: string | number;
-  dueDate: number;
-  team: string | string[];
-  owner?: string | null;
-  timeEstimation: number;
-}
-
 export default defineComponent({
   name: "TaskUpdatePage",
   components: {
@@ -52,13 +43,6 @@ export default defineComponent({
         team: this.teamId,
         timeEstimation: this.task.timeEstimation,
       };
-    },
-    formattedTaskData(): string {
-      const data: TaskData = { ...this.taskFormData };
-      if (this.selectedMember) {
-        data.owner = this.selectedMember;
-      }
-      return JSON.stringify(data, null, 2);
     },
   },
   async mounted() {
