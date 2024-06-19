@@ -1,6 +1,7 @@
 <template>
   <v-app-bar app color="accent" dark>
     <v-app-bar-nav-icon
+      v-if="isLoggedIn"
       @click="toggleDrawer"
       class="d-md-none"
     ></v-app-bar-nav-icon>
@@ -11,13 +12,12 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn
+    <div
       v-if="user.firstname && user.lastname"
-      color="secondary"
-      class="d-none d-md-flex"
+      class="d-none d-md-flex text-on-accent"
     >
       {{ user.firstname }} {{ user.lastname }}
-    </v-btn>
+    </div>
     <v-btn
       v-if="isLoggedIn"
       color="secondary"
@@ -36,7 +36,13 @@
     </v-btn>
   </v-app-bar>
 
-  <v-navigation-drawer v-model="drawer" app temporary color="accent">
+  <v-navigation-drawer
+    v-if="isLoggedIn"
+    v-model="drawer"
+    app
+    temporary
+    color="accent"
+  >
     <v-list>
       <v-list-item v-if="user.firstname && user.lastname">
         <v-list-item-title class="text-on-accent"
@@ -79,7 +85,11 @@ export default defineComponent({
     };
 
     const navigateToHome = () => {
-      router.push("/");
+      if (isLoggedIn.value) {
+        router.push("/");
+      } else {
+        router.push("/login");
+      }
     };
 
     return {

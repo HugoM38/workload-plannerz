@@ -7,7 +7,7 @@ import TaskMemberView from "@/views/TaskParamPages/TaskMemberView.vue";
 import LoginView from "@/views/AuthPages/LoginView.vue";
 import RegisterView from "@/views/AuthPages/RegisterView.vue";
 import TeamDetailsView from "@/views/TeamParamPages/TeamDetailsView.vue";
-import { isLoggedIn } from "@/models/UseUser"; // Assuming isLoggedIn is a function or a computed property that returns the login state
+import { isLoggedIn } from "@/models/UseUser";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -70,7 +70,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const loggedIn = isLoggedIn.value; // Replace with your actual login state check
+  const loggedIn = isLoggedIn.value;
 
   if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
     next({ name: "login" });
