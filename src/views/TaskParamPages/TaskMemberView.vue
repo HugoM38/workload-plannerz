@@ -18,6 +18,20 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-col>
+              <!-- Nouvelle section pour afficher le workload du membre -->
+              <v-col cols="12">
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title
+                      >Charge de travail de l'utilisateur</v-list-item-title
+                    >
+                    <v-list-item-subtitle
+                      >{{ memberWorkload }} heures</v-list-item-subtitle
+                    >
+                  </v-list-item-content>
+                </v-list-item>
+              </v-col>
+              <!-- Fin de la nouvelle section -->
               <v-col cols="12">
                 <v-radio-group v-model="sortOption">
                   <v-radio
@@ -115,6 +129,10 @@
                     ? formatDate(selectedTask.creationDate)
                     : "Non définie"
                 }}
+              </v-list-item-subtitle>
+              <v-list-item-subtitle>
+                Temps estimé:
+                {{ selectedTask?.timeEstimation }} heure(s)
               </v-list-item-subtitle>
             </v-card-text>
             <v-card-actions>

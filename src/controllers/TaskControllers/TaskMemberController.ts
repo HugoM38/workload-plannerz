@@ -17,6 +17,7 @@ export default defineComponent({
       snackbar: false,
       sortOption: "dueDate",
       hideCompleted: false,
+      memberWorkload: 0, // Variable to store member's workload
     };
   },
   computed: {
@@ -59,6 +60,22 @@ export default defineComponent({
       this.memberTasks = this.tasks.filter(
         (task: Task) => task.owner === memberId
       );
+    } catch (error) {
+      this.handleError(error as AxiosError);
+    }
+
+    try {
+      const token: string = localStorage.getItem("token") || "";
+      const response = await axiosInstance.get(
+        `/teams/${teamId}/${memberId}/workload`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      this.memberWorkload = response.data.workload;
     } catch (error) {
       this.handleError(error as AxiosError);
     }
