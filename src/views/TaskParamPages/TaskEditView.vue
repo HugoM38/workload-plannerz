@@ -23,7 +23,9 @@
                   class="member-item"
                 >
                   <v-list-item-content>
-                    <v-list-item-title>{{ member.name }}</v-list-item-title>
+                    <v-list-item-title>{{
+                      `${member.firstname} ${member.lastname}`
+                    }}</v-list-item-title>
                     <v-list-item-subtitle>{{
                       member.email
                     }}</v-list-item-subtitle>
@@ -35,7 +37,6 @@
             <v-form class="mt-5">
               <TaskForm
                 v-model:taskName="task.name"
-                v-model:taskDescription="task.description"
                 v-model:priority="task.priority"
                 v-model:dueDate="task.dueDate"
                 v-model:timeEstimation="task.timeEstimation"

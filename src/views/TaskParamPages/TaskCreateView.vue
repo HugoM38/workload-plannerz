@@ -2,13 +2,11 @@
   <v-app>
     <v-main class="bg-primary">
       <v-container>
-        <!-- Carte unique pour l'attribution et la création de tâche -->
         <v-card class="mt-5">
           <v-card-title>
             <h1>Créer une Tâche</h1>
           </v-card-title>
           <v-card-text>
-            <!-- Section d'attribution de tâche -->
             <h2>Attribuer la Tâche à un Membre</h2>
             <v-list>
               <v-progress-circular
@@ -21,11 +19,15 @@
                   v-for="(member, index) in members"
                   :key="index"
                   @click="selectMember(member)"
-                  :class="{ 'selected-member': selectedMember === member._id }"
+                  :class="{
+                    'selected-member': form.selectedMember === member._id,
+                  }"
                   class="member-item"
                 >
                   <v-list-item-content>
-                    <v-list-item-title>{{ member.name }}</v-list-item-title>
+                    <v-list-item-title>{{
+                      `${member.firstname} ${member.lastname}`
+                    }}</v-list-item-title>
                     <v-list-item-subtitle>{{
                       member.email
                     }}</v-list-item-subtitle>
@@ -34,17 +36,15 @@
               </template>
             </v-list>
 
-            <!-- Section de création de tâche -->
             <v-form class="mt-5">
               <TaskForm
-                v-model:taskName="taskName"
-                v-model:priority="priority"
-                v-model:dueDate="dueDate"
-                v-model:timeEstimation="timeEstimation"
+                v-model:taskName="form.taskName"
+                v-model:priority="form.priority"
+                v-model:dueDate="form.dueDate"
+                v-model:timeEstimation="form.timeEstimation"
               />
             </v-form>
 
-            <!-- Section to display the task data being sent -->
             <h2 class="mt-5">Données de la Tâche</h2>
             <pre>{{ formattedTaskData }}</pre>
           </v-card-text>
@@ -55,7 +55,6 @@
           </v-card-actions>
         </v-card>
 
-        <!-- Snackbar pour les erreurs -->
         <v-snackbar v-model="snackbar" :timeout="6000" top>
           {{ error }}
           <v-btn color="red" @click="snackbar = false">Fermer</v-btn>

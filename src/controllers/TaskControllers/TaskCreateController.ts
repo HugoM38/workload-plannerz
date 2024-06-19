@@ -1,15 +1,10 @@
-import { defineComponent, ref, onMounted, computed } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { defineComponent, reactive } from "vue";
 import axiosInstance from "@/axiosConfig";
 import TaskForm from "@/views/components/TaskForm.vue";
 import { AxiosError } from "axios";
-
-interface Member {
-  _id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-}
+import { handleAxiosError } from "@/utils/errorHandler";
+import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
+import { User } from "@/models/User";
 
 interface TaskData {
   name: string;
@@ -25,21 +20,50 @@ export default defineComponent({
   components: {
     TaskForm,
   },
-  setup() {
-    const route = useRoute();
-    const router = useRouter();
-
-    const taskName = ref("");
-    const priority = ref("0");
-    const dueDate = ref(new Date().toISOString().substr(0, 10));
-    const timeEstimation = ref(0);
-    const selectedMember = ref("");
-    const members = ref<{ _id: string; name: string; email: string }[]>([]);
-    const loading = ref(true);
-    const error = ref("");
-    const snackbar = ref(false);
-
-    const fetchMembers = async (teamId: string) => {
+  data() {
+    return {
+      form: reactive({
+        taskName: "",
+        priority: "0",
+        dueDate: new Date().toISOString().substr(0, 10),
+        timeEstimation: 0,
+        selectedMember: "",
+      }),
+      members: [] as User[],
+      loading: true,
+      error: "",
+      snackbar: false,
+    };
+  },
+  computed: {
+    taskData() {
+      const dueDateTimestamp = new Date(this.form.dueDate).getTime();
+      return {
+        name: this.form.taskName,
+        priority: this.form.priority,
+        dueDate: dueDateTimestamp,
+        team: this.$route.params.id,
+        timeEstimation: this.form.timeEstimation,
+      };
+    },
+    formattedTaskData(): string {
+      const data: TaskData = { ...this.taskData };
+      if (this.form.selectedMember) {
+        data.owner = this.form.selectedMember;
+      }
+      return JSON.stringify(data, null, 2);
+    },
+  },
+  async mounted() {
+    const teamId = this.$route.params.id as string;
+    if (teamId) {
+      await this.fetchMembers(teamId);
+    } else {
+      this.loading = false;
+    }
+  },
+  methods: {
+    async fetchMembers(teamId: string) {
       try {
         const token = localStorage.getItem("token") || "";
         const response = await axiosInstance.get(`/teams/${teamId}/members`, {
@@ -47,106 +71,39 @@ export default defineComponent({
             Authorization: `Bearer ${token}`,
           },
         });
-        if (response.data && Array.isArray(response.data)) {
-          members.value = response.data.map((member: Member) => ({
-            _id: member._id,
-            name: `${member.firstname} ${member.lastname}`,
-            email: member.email,
-          }));
-          console.log("Team Members:", members.value);
-        } else {
-          console.error(
-            "Erreur: La réponse des membres n'est pas valide",
-            response.data
-          );
-        }
+        this.members = response.data;
       } catch (err) {
-        const errorResponse = err as AxiosError<any>;
-        if (errorResponse.response && errorResponse.response.data) {
-          error.value =
-            errorResponse.response.data.message || "An error occurred";
-        } else if (errorResponse.request) {
-          error.value = "No response received from server";
-        } else {
-          error.value = errorResponse.message || "An error occurred";
-        }
-        snackbar.value = true;
+        this.error = handleAxiosError(err as AxiosError<AxiosErrorResponse>);
+        this.snackbar = true;
       } finally {
-        loading.value = false;
+        this.loading = false;
       }
-    };
-
-    const selectMember = (member: { _id: string }) => {
-      selectedMember.value =
-        selectedMember.value === member._id ? "" : member._id;
-    };
-
-    const taskData = computed(() => {
-      const dueDateTimestamp = new Date(dueDate.value).getTime();
-      return {
-        name: taskName.value,
-        priority: priority.value,
-        dueDate: dueDateTimestamp,
-        team: route.params.id,
-        timeEstimation: timeEstimation.value,
-      };
-    });
-
-    const formattedTaskData = computed((): string => {
-      const data: TaskData = { ...taskData.value };
-      if (selectedMember.value) {
-        data.owner = selectedMember.value;
-      }
-      return JSON.stringify(data, null, 2);
-    });
-
-    const submitTask = async () => {
+    },
+    selectMember(member: { _id: string }) {
+      this.form.selectedMember =
+        this.form.selectedMember === member._id ? "" : member._id;
+    },
+    async submitTask() {
       try {
         const token = localStorage.getItem("token") || "";
-        const data: TaskData = { ...taskData.value };
-        if (selectedMember.value) {
-          data.owner = selectedMember.value;
+        const data: TaskData = { ...this.taskData };
+        if (this.form.selectedMember) {
+          data.owner = this.form.selectedMember;
         } else {
           delete data.owner;
         }
-        console.log("////DATA : " + data.timeEstimation);
         const response = await axiosInstance.post(`/tasks/create`, data, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         console.log("Tâche créée avec succès:", response.data);
-        router.push("/");
+        this.$router.push("/");
       } catch (error) {
         console.error("Erreur lors de la création de la tâche", error);
-        snackbar.value = true;
-        // Gérer l'erreur
+        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.snackbar = true;
       }
-    };
-
-    onMounted(() => {
-      const teamId = route.params.id as string;
-      if (teamId) {
-        fetchMembers(teamId);
-      } else {
-        loading.value = false;
-      }
-    });
-
-    return {
-      taskName,
-      priority,
-      dueDate,
-      timeEstimation,
-      submitTask,
-      selectedMember,
-      selectMember,
-      members,
-      loading,
-      error,
-      snackbar,
-      taskData,
-      formattedTaskData,
-    };
+    },
   },
 });
