@@ -15,11 +15,21 @@ export default defineComponent({
       taskDialog: false,
       error: "",
       snackbar: false,
+      sortOption: "dueDate", // Default sorting option
+      hideCompleted: false, // Hide completed tasks option
     };
   },
   computed: {
     sortedTasks() {
-      return [...this.memberTasks].sort((a, b) => a.dueDate - b.dueDate);
+      let tasks = [...this.memberTasks];
+      if (this.hideCompleted) {
+        tasks = tasks.filter((task) => task.state !== "Terminée");
+      }
+      return tasks.sort((a, b) => {
+        return this.sortOption === "dueDate"
+          ? a.dueDate - b.dueDate
+          : b.priority - a.priority;
+      });
     },
   },
   async mounted() {
