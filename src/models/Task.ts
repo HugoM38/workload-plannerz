@@ -7,6 +7,7 @@ interface Task {
   state: string;
   dueDate: number;
   creationDate: number;
+  timeEstimation: number;
 }
 
 export { Task };

@@ -42,6 +42,20 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-col>
+              <!-- Nouvelle section pour afficher le workload de l'équipe -->
+              <v-col cols="12">
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title
+                      >Charge de travail totale de l'équipe</v-list-item-title
+                    >
+                    <v-list-item-subtitle
+                      >{{ teamWorkload }} heures</v-list-item-subtitle
+                    >
+                  </v-list-item-content>
+                </v-list-item>
+              </v-col>
+              <!-- Fin de la nouvelle section -->
               <v-row justify="center">
                 <v-col cols="12" md="8" lg="6">
                   <v-card class="member-card">
@@ -280,6 +294,10 @@
                     ? formatDate(selectedTask.creationDate)
                     : "Non définie"
                 }}
+              </v-list-item-subtitle>
+              <v-list-item-subtitle>
+                Temps estimé:
+                {{ selectedTask?.timeEstimation }} heure(s)
               </v-list-item-subtitle>
             </v-card-text>
             <v-card-actions>

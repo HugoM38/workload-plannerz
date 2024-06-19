@@ -22,6 +22,7 @@ export default defineComponent({
       snackbar: false,
       sortOption: "dueDate", // Default sorting option
       hideCompleted: false, // Hide completed tasks option
+      teamWorkload: 0, // Variable to store team's workload
     };
   },
   computed: {
@@ -114,6 +115,22 @@ export default defineComponent({
       this.ownedTasks = this.tasks.filter(
         (task: Task) => task.owner && task.owner !== userId
       );
+    } catch (error) {
+      this.handleError(error as AxiosError);
+    }
+
+    try {
+      const token: string = localStorage.getItem("token") || "";
+      const response = await axiosInstance.get(
+        `/teams/${this.team._id}/workload`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      this.teamWorkload = response.data.workload;
     } catch (error) {
       this.handleError(error as AxiosError);
     }

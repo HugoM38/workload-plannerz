@@ -1,9 +1,23 @@
+@@ -1,72 +1,46 @@
 <template>
   <v-app>
-    <v-main>
+    <v-main class="bg-primary">
       <v-container>
-        <TeamForm v-model:name="teamName" />
-        <v-btn color="primary" @click="createTeam">Créer</v-btn>
+        <v-row justify="center">
+          <v-col cols="12" md="8" lg="6">
+            <v-card class="bg-accent text-on-accent pa-5">
+              <v-card-title class="title">
+                <h3>Créer une nouvelle équipe</h3>
+              </v-card-title>
+              <v-card-text>
+                <TeamForm v-model:name="teamName" />
+              </v-card-text>
+              <v-card-actions class="d-flex justify-center">
+                <v-btn class="btn bg-primary" @click="createTeam">Créer</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-container>
     </v-main>
   </v-app>
@@ -14,4 +28,18 @@
   src="@/controllers/TeamControllers/TeamCreateController.ts"
 ></script>
 
-<style scoped></style>
+<style scoped>
+.btn {
+  border-radius: 8px;
+  font-weight: bold;
+  width: 10em;
+}
+.title {
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .btn {
+    width: 100%;
+  }
+}
+</style>
