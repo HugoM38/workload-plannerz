@@ -3,10 +3,24 @@
     <v-main class="bg-primary">
       <v-container>
         <v-card class="bg-accent text-on-accent">
-          <v-card-title>
+          <v-card-title class="d-flex justify-space-between align-center">
             <h1>Détails de l'équipe</h1>
+            <v-btn
+              color="primary"
+              class="d-none d-md-inline-flex"
+              @click="navigateToEditTeam"
+            >
+              Modifier
+            </v-btn>
           </v-card-title>
           <v-card-text>
+            <v-btn
+              color="primary"
+              class="d-inline-flex d-md-none mb-4"
+              @click="navigateToEditTeam"
+            >
+              Modifier
+            </v-btn>
             <v-row>
               <v-col cols="12">
                 <v-list-item>

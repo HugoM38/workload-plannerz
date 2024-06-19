@@ -106,9 +106,13 @@ export default defineComponent({
       const date = new Date(timestamp);
       return date.toLocaleDateString("fr-FR");
     },
-
     navigateToCreateTask() {
       const path = `/team/${this.team._id}/task/create`;
+      this.$router.push(path);
+    },
+    navigateToEditTeam() {
+      const teamData = btoa(encodeURIComponent(JSON.stringify(this.team)));
+      const path = `/team/${teamData}/edit`;
       this.$router.push(path);
     },
     openTaskDialog(task: Task) {
