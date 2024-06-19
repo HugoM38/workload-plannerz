@@ -119,6 +119,10 @@ export default defineComponent({
       this.selectedTask = task;
       this.taskDialog = true;
     },
+    isOwner() {
+      const user: User = JSON.parse(localStorage.getItem("user") || "");
+      return this.team.owner === user._id;
+    },
     async closeTask(taskId: string) {
       this.taskDialog = false;
       try {

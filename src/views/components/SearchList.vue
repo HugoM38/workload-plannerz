@@ -4,10 +4,15 @@
       v-model="searchQuery"
       label="Rechercher"
       outlined
+      class="bg-accent text-on-accent mb-4"
     ></v-text-field>
     <h2>Membres de l'équipe</h2>
-    <v-list>
-      <v-list-item v-for="(member, index) in filteredTeamMembers" :key="index">
+    <v-list class="member-list">
+      <v-list-item
+        v-for="(member, index) in filteredTeamMembers"
+        :key="index"
+        class="member-list-item"
+      >
         <v-list-item-content>
           <v-list-item-title
             >{{ member.firstname }} {{ member.lastname }}</v-list-item-title
@@ -19,10 +24,11 @@
       </v-list-item>
     </v-list>
     <h2>Non-membres de l'équipe</h2>
-    <v-list>
+    <v-list class="member-list">
       <v-list-item
         v-for="(nonMember, index) in filteredNonMembers"
         :key="index"
+        class="member-list-item"
       >
         <v-list-item-content>
           <v-list-item-title
@@ -37,7 +43,7 @@
     </v-list>
     <v-snackbar v-model="snackbar" :timeout="6000" top>
       {{ error }}
-      <v-btn color="red" @click="snackbar = false">Close</v-btn>
+      <v-btn color="red" @click="snackbar = false">Fermer</v-btn>
     </v-snackbar>
   </v-container>
 </template>
@@ -47,4 +53,21 @@
   src="@/controllers/TeamControllers/SearchListController.ts"
 ></script>
 
-<style scoped></style>
+<style scoped>
+.member-list {
+  background-color: inherit;
+  padding: 8px;
+}
+
+.member-list-item {
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #fff3e0;
+}
+
+h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+</style>

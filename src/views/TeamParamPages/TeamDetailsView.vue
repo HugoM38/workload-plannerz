@@ -6,6 +6,7 @@
           <v-card-title class="d-flex justify-space-between align-center">
             <h1>Détails de l'équipe</h1>
             <v-btn
+              v-if="isOwner()"
               color="primary"
               class="d-none d-md-inline-flex"
               @click="navigateToEditTeam"
@@ -15,6 +16,7 @@
           </v-card-title>
           <v-card-text>
             <v-btn
+              v-if="isOwner()"
               color="primary"
               class="d-inline-flex d-md-none mb-4"
               @click="navigateToEditTeam"
