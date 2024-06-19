@@ -19,6 +19,15 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    timeEstimation: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    isUpdateMode: {
+      type: Boolean,
+      required: true,
+    },
   },
   setup(props, { emit }) {
     const localTaskName = ref(props.taskName);
@@ -26,6 +35,7 @@ export default defineComponent({
     const localPriority = ref(props.priority);
     const localDueDate = ref(new Date(props.dueDate)); // Convertir la chaîne en objet Date
     const formattedDueDate = ref(localDueDate.value.toLocaleDateString());
+    const localTimeEstimation = ref(props.timeEstimation);
     const menu = ref(false);
     const priorityLevels = ref([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
@@ -38,6 +48,9 @@ export default defineComponent({
       emit("update:dueDate", newValue.toISOString().substr(0, 10)); // Convertir l'objet Date en chaîne ISO
       formattedDueDate.value = newValue.toLocaleDateString();
     });
+    watch(localTimeEstimation, (newValue) =>
+      emit("update:timeEstimation", newValue)
+    );
 
     return {
       localTaskName,
@@ -45,6 +58,7 @@ export default defineComponent({
       localPriority,
       localDueDate,
       formattedDueDate,
+      localTimeEstimation,
       menu,
       priorityLevels,
     };

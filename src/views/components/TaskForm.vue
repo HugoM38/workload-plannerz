@@ -1,7 +1,12 @@
 <template>
   <v-form>
     <!-- Nom de la tâche -->
-    <v-text-field v-model="localTaskName" label="Nom" outlined></v-text-field>
+    <v-text-field
+      v-if="!isUpdateMode"
+      v-model="localTaskName"
+      label="Nom"
+      outlined
+    ></v-text-field>
 
     <!-- Niveau de priorité -->
     <v-select
@@ -36,6 +41,15 @@
         @input="menu = false"
       ></v-date-picker>
     </v-menu>
+
+    <!-- Estimation du temps en heures -->
+    <v-text-field
+      v-model="localTimeEstimation"
+      label="Estimation du temps (heures)"
+      outlined
+      type="number"
+      min="0"
+    ></v-text-field>
   </v-form>
 </template>
 

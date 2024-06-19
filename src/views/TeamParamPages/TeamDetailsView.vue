@@ -234,7 +234,8 @@
                 État: {{ selectedTask?.state }}
               </v-list-item-subtitle>
               <v-list-item-subtitle v-if="selectedTask?.owner">
-                Attribué à: {{ getOwnerName(selectedTask.owner) }}
+                Attribué à:
+                {{ getOwnerName(selectedTask.owner) }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
                 Date de fin:
@@ -254,6 +255,11 @@
               </v-list-item-subtitle>
             </v-card-text>
             <v-card-actions>
+              <v-btn
+                color="primary"
+                @click="navigateToUpdateTask(selectedTask!._id)"
+                >Modifier</v-btn
+              >
               <v-spacer></v-spacer>
               <v-btn
                 color="green darken-1"

@@ -14,9 +14,10 @@ interface Member {
 interface TaskData {
   name: string;
   priority: string | number;
-  dueDate: number; // Changer le type de string à number
+  dueDate: number;
   team: string | string[];
   owner?: string | null;
+  timeEstimation: number;
 }
 
 export default defineComponent({
@@ -31,6 +32,7 @@ export default defineComponent({
     const taskName = ref("");
     const priority = ref("0");
     const dueDate = ref(new Date().toISOString().substr(0, 10));
+    const timeEstimation = ref(0);
     const selectedMember = ref("");
     const members = ref<{ _id: string; name: string; email: string }[]>([]);
     const loading = ref(true);
@@ -80,13 +82,13 @@ export default defineComponent({
     };
 
     const taskData = computed(() => {
-      // Convertir la date au format timestamp
       const dueDateTimestamp = new Date(dueDate.value).getTime();
       return {
         name: taskName.value,
         priority: priority.value,
         dueDate: dueDateTimestamp,
         team: route.params.id,
+        timeEstimation: timeEstimation.value,
       };
     });
 
@@ -104,14 +106,17 @@ export default defineComponent({
         const data: TaskData = { ...taskData.value };
         if (selectedMember.value) {
           data.owner = selectedMember.value;
+        } else {
+          delete data.owner;
         }
+        console.log("////DATA : " + data.timeEstimation);
         const response = await axiosInstance.post(`/tasks/create`, data, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         console.log("Tâche créée avec succès:", response.data);
-        router.push("/"); // Redirection vers la page principale après la création de la tâche
+        router.push("/");
       } catch (error) {
         console.error("Erreur lors de la création de la tâche", error);
         snackbar.value = true;
@@ -132,6 +137,7 @@ export default defineComponent({
       taskName,
       priority,
       dueDate,
+      timeEstimation,
       submitTask,
       selectedMember,
       selectMember,

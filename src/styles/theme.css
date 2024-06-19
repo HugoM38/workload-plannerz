@@ -1,30 +1,29 @@
 /* src/styles/theme.css */
 :root {
-    --v-theme-primary: #0F8B8D;
-    --v-theme-secondary: #BDEDE0;
-    --v-theme-accent: #21393e;
-    --v-theme-on-accent: #FFFFFF;
-    --v-theme-surface: #FFFFFF;
-    --v-theme-on-primary: #FFFFFF;
-  }
-  
-  .bg-primary {
-    background-color: var(--v-theme-primary) !important;
-  }
-  
-  .bg-secondary {
-    background-color: var(--v-theme-secondary) !important;
-  }
-  
-  .bg-accent {
-    background-color: var(--v-theme-accent) !important;
-  }
-  
-  .text-on-accent {
-    color: var(--v-theme-on-accent) !important;
-  }
-  
-  .text-on-primary {
-    color: var(--v-theme-on-primary) !important;
-  }
-  
+  --v-theme-primary: #0f8b8d;
+  --v-theme-secondary: #bdede0;
+  --v-theme-accent: #21393e;
+  --v-theme-on-accent: #ffffff;
+  --v-theme-surface: #ffffff;
+  --v-theme-on-primary: #ffffff;
+}
+
+.bg-primary {
+  background-color: var(--v-theme-primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--v-theme-secondary) !important;
+}
+
+.bg-accent {
+  background-color: var(--v-theme-accent) !important;
+}
+
+.text-on-accent {
+  color: var(--v-theme-on-accent) !important;
+}
+
+.text-on-primary {
+  color: var(--v-theme-on-primary) !important;
+}
