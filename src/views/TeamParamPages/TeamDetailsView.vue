@@ -275,33 +275,27 @@
               <v-list-item-subtitle>
                 État: {{ selectedTask?.state }}
               </v-list-item-subtitle>
-              <v-list-item-subtitle v-if="selectedTask?.owner">
+              <v-list-item-subtitle v-if="selectedTask!.owner">
                 Attribué à:
-                {{ getOwnerName(selectedTask.owner) }}
+                {{ getOwnerName(selectedTask!.owner) }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
                 Date de fin:
-                {{
-                  selectedTask?.dueDate
-                    ? formatDate(selectedTask.dueDate)
-                    : "Non définie"
-                }}
+                {{ formatDate(selectedTask!.dueDate) }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
                 Date de création:
-                {{
-                  selectedTask?.creationDate
-                    ? formatDate(selectedTask.creationDate)
-                    : "Non définie"
-                }}
+                {{ formatDate(selectedTask!.creationDate) }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
                 Temps estimé:
-                {{ selectedTask?.timeEstimation }} heure(s)
+                {{ selectedTask!.timeEstimation }} heure(s)
               </v-list-item-subtitle>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="primary" @click="navigateToUpdateTask(selectedTask)"
+              <v-btn
+                color="primary"
+                @click="navigateToUpdateTask(selectedTask!)"
                 >Modifier</v-btn
               >
               <v-spacer></v-spacer>

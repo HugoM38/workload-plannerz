@@ -80,13 +80,11 @@ export default defineComponent({
       }
     },
     adjustDate(date: Date) {
-      // Utiliser des méthodes UTC pour ajuster la date
       return new Date(
         Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
       );
     },
     formatDate(date: Date) {
-      // Formater la date sans tenir compte du fuseau horaire
       return new Date(
         Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
       ).toLocaleDateString();

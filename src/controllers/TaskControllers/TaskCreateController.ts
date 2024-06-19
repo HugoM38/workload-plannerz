@@ -92,7 +92,7 @@ export default defineComponent({
         } else {
           delete data.owner;
         }
-        const response = await axiosInstance.post(`/tasks/create`, data, {
+        await axiosInstance.post(`/tasks/create`, data, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -1,14 +1,14 @@
 <template>
   <v-app>
-    <v-main>
+    <v-main class="bg-primary">
       <v-container>
-        <v-card class="mt-5">
+        <v-card class="mt-5 bg-accent text-on-accent">
           <v-card-title>
             <h1>Modifier une Tâche</h1>
           </v-card-title>
           <v-card-text>
             <h2>Attribuer la Tâche à un Membre</h2>
-            <v-list>
+            <v-list class="bg-accent member-list">
               <v-progress-circular
                 v-if="loading"
                 indeterminate
@@ -19,7 +19,7 @@
                   v-for="(member, index) in members"
                   :key="index"
                   @click="selectMember(member)"
-                  :class="{ 'selected-member': selectedMember === member._id }"
+                  :class="{ 'bg-primary': selectedMember === member._id }"
                   class="member-item"
                 >
                   <v-list-item-content>
@@ -43,14 +43,9 @@
                 :showBasicFieldsOnly="true"
               />
             </v-form>
-
-            <div class="text-center mt-5">
-              <h2>Données de la Tâche</h2>
-              <pre>{{ formattedTaskData }}</pre>
-            </div>
           </v-card-text>
-          <v-card-actions>
-            <v-btn class="mt-3" @click="updateTask" color="primary">
+          <v-card-actions class="justify-center">
+            <v-btn class="mt-3 btn bg-primary" @click="updateTask">
               Mettre à jour la tâche
             </v-btn>
           </v-card-actions>
@@ -71,12 +66,21 @@
 ></script>
 
 <style scoped>
-.selected-member {
-  background-color: #e0e0e0;
-}
-
 .justify-center {
   justify-content: center;
+}
+
+.btn {
+  border-radius: 8px;
+  font-weight: bold;
+  margin-bottom: 4em;
+}
+
+.member-list {
+  border-radius: 8px;
+  border: 4px solid #0f8b8d;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .align-center {
