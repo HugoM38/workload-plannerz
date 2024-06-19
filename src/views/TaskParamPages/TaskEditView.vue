@@ -38,6 +38,7 @@
                 v-model:taskDescription="task.description"
                 v-model:priority="task.priority"
                 v-model:dueDate="task.dueDate"
+                v-model:timeEstimation="task.timeEstimation"
                 :showBasicFieldsOnly="true"
               />
             </v-form>

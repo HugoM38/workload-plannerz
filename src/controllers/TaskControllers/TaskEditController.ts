@@ -14,10 +14,10 @@ interface Member {
 interface TaskData {
   name: string;
   priority: string | number;
-  dueDate: string;
-  description: string;
+  dueDate: number;
   team: string | string[];
   owner?: string | null;
+  timeEstimation: number;
 }
 
 export default defineComponent({
@@ -31,9 +31,9 @@ export default defineComponent({
 
     const task = ref({
       name: "",
-      description: "",
       priority: "0",
       dueDate: new Date().toISOString().substr(0, 10),
+      timeEstimation: 0,
     });
 
     const selectedMember = ref("");
@@ -43,39 +43,6 @@ export default defineComponent({
     const snackbar = ref(false);
     const taskData = route.params.taskData as string;
     const teamId = route.params.teamId as string;
-
-    const fetchTaskDetails = async (taskId: string) => {
-      try {
-        const token = localStorage.getItem("token") || "";
-        const response = await axiosInstance.get(`/tasks/${taskId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response.data) {
-          task.value.name = response.data.name;
-          task.value.description = response.data.description;
-          task.value.priority = response.data.priority.toString();
-          task.value.dueDate = new Date(response.data.dueDate)
-            .toISOString()
-            .substr(0, 10);
-          selectedMember.value = response.data.owner || "";
-        }
-      } catch (err) {
-        const errorResponse = err as AxiosError<any>;
-        if (errorResponse.response && errorResponse.response.data) {
-          error.value =
-            errorResponse.response.data.message || "An error occurred";
-        } else if (errorResponse.request) {
-          error.value = "No response received from server";
-        } else {
-          error.value = errorResponse.message || "An error occurred";
-        }
-        snackbar.value = true;
-      } finally {
-        loading.value = false;
-      }
-    };
 
     const fetchMembers = async (teamId: string) => {
       try {
@@ -132,11 +99,11 @@ export default defineComponent({
     onMounted(() => {
       if (taskDataDecoded.value) {
         task.value.name = taskDataDecoded.value.name;
-        task.value.description = taskDataDecoded.value.description;
         task.value.priority = taskDataDecoded.value.priority.toString();
         task.value.dueDate = new Date(taskDataDecoded.value.dueDate)
           .toISOString()
           .substr(0, 10);
+        task.value.timeEstimation = taskDataDecoded.value.timeEstimation || 0;
         selectedMember.value = taskDataDecoded.value.owner || "";
       }
       if (teamId) {
@@ -147,13 +114,19 @@ export default defineComponent({
     });
 
     const taskFormData = computed(() => {
-      const dueDateISO = new Date(task.value.dueDate).toISOString();
+      // Ajuster le calcul du timestamp pour corriger le décalage d'un jour
+      const dueDateTimestamp = new Date(task.value.dueDate).setHours(
+        0,
+        0,
+        0,
+        0
+      );
       return {
         name: task.value.name,
-        description: task.value.description,
         priority: task.value.priority,
-        dueDate: dueDateISO,
+        dueDate: dueDateTimestamp,
         team: teamId,
+        timeEstimation: task.value.timeEstimation,
       };
     });
 
@@ -166,44 +139,45 @@ export default defineComponent({
     });
 
     const updateTask = async () => {
+      const token = localStorage.getItem("token") || "";
+      const taskId = taskDataDecoded.value._id;
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
       try {
-        const token = localStorage.getItem("token") || "";
+        console.log("Request Data:", taskFormData.value);
 
-        if (task.value.priority) {
-          await axiosInstance.patch(
-            `/tasks/${taskDataDecoded.value._id}/priority`,
-            { priority: task.value.priority },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-        }
+        // Mise à jour de la priorité
+        await axiosInstance.patch(
+          `https://workload-plannerz-api-8f1fb119eefd.herokuapp.com/api/tasks/${taskId}/priority`,
+          { priority: task.value.priority },
+          { headers }
+        );
 
-        if (task.value.dueDate) {
-          await axiosInstance.patch(
-            `/tasks/${taskDataDecoded.value._id}/dueDate`,
-            { dueDate: new Date(task.value.dueDate).getTime() },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-        }
+        // Mise à jour de la date d'échéance
+        await axiosInstance.patch(
+          `https://workload-plannerz-api-8f1fb119eefd.herokuapp.com/api/tasks/${taskId}/dueDate`,
+          { dueDate: taskFormData.value.dueDate },
+          { headers }
+        );
 
+        // Mise à jour du propriétaire
         if (selectedMember.value) {
           await axiosInstance.patch(
-            `/tasks/${taskDataDecoded.value._id}/owner`,
+            `https://workload-plannerz-api-8f1fb119eefd.herokuapp.com/api/tasks/${taskId}/owner`,
             { ownerId: selectedMember.value },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
+            { headers }
           );
         }
+
+        // Mise à jour de l'estimation de temps
+        await axiosInstance.patch(
+          `https://workload-plannerz-api-8f1fb119eefd.herokuapp.com/api/tasks/${taskId}/timeEstimation`,
+          { timeEstimation: task.value.timeEstimation },
+          { headers }
+        );
 
         console.log("Tâche mise à jour avec succès");
         router.push("/");
