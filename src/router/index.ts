@@ -4,7 +4,7 @@ import TeamCreateView from "@/views/TeamParamPages/TeamCreateView.vue";
 import TeamEditView from "@/views/TeamParamPages/TeamEditView.vue";
 import TaskCreateView from "@/views/TaskParamPages/TaskCreateView.vue";
 import TaskMemberView from "@/views/TaskParamPages/TaskMemberView.vue";
-import TaskEditView from "@/views/TaskParamPages/TaskEditView.vue"; // Assurez-vous de cet import
+import TaskEditView from "@/views/TaskParamPages/TaskEditView.vue";
 import LoginView from "@/views/AuthPages/LoginView.vue";
 import RegisterView from "@/views/AuthPages/RegisterView.vue";
 import TeamDetailsView from "@/views/TeamParamPages/TeamDetailsView.vue";
@@ -52,12 +52,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true },
   },
   {
-    path: "/team/:teamId/task/update/:taskId",
+    path: "/team/:teamId/task/update/:taskData",
     name: "task_update",
     component: TaskEditView,
     props: (route) => ({
       teamId: route.params.teamId,
-      taskId: route.params.taskId,
+      taskData: route.params.taskData,
     }),
     meta: { requiresAuth: true },
   },

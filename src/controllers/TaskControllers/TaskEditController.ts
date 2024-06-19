@@ -1,6 +1,7 @@
 import { defineComponent, ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axiosInstance from "@/axiosConfig";
+import TaskForm from "@/views/components/TaskForm.vue";
 import { AxiosError } from "axios";
 
 interface Member {
@@ -13,26 +14,34 @@ interface Member {
 interface TaskData {
   name: string;
   priority: string | number;
-  dueDate: number;
+  dueDate: string;
+  description: string;
   team: string | string[];
   owner?: string | null;
 }
 
 export default defineComponent({
   name: "TaskUpdatePage",
+  components: {
+    TaskForm,
+  },
   setup() {
     const route = useRoute();
     const router = useRouter();
 
-    const taskName = ref("");
-    const priority = ref("0");
-    const dueDate = ref(new Date().toISOString().substr(0, 10));
+    const task = ref({
+      name: "",
+      description: "",
+      priority: "0",
+      dueDate: new Date().toISOString().substr(0, 10),
+    });
+
     const selectedMember = ref("");
     const members = ref<{ _id: string; name: string; email: string }[]>([]);
     const loading = ref(true);
     const error = ref("");
     const snackbar = ref(false);
-    const taskId = route.params.taskId as string;
+    const taskData = route.params.taskData as string;
     const teamId = route.params.teamId as string;
 
     const fetchTaskDetails = async (taskId: string) => {
@@ -44,9 +53,10 @@ export default defineComponent({
           },
         });
         if (response.data) {
-          taskName.value = response.data.name;
-          priority.value = response.data.priority.toString();
-          dueDate.value = new Date(response.data.dueDate)
+          task.value.name = response.data.name;
+          task.value.description = response.data.description;
+          task.value.priority = response.data.priority.toString();
+          task.value.dueDate = new Date(response.data.dueDate)
             .toISOString()
             .substr(0, 10);
           selectedMember.value = response.data.owner || "";
@@ -109,18 +119,46 @@ export default defineComponent({
         selectedMember.value === member._id ? "" : member._id;
     };
 
-    const taskData = computed(() => {
-      const dueDateTimestamp = new Date(dueDate.value).getTime();
+    const taskDataDecoded = computed(() => {
+      try {
+        const decodedTaskData = decodeURIComponent(atob(taskData));
+        return JSON.parse(decodedTaskData);
+      } catch (error) {
+        console.error("Erreur lors du décodage des données de la tâche", error);
+        return null;
+      }
+    });
+
+    onMounted(() => {
+      if (taskDataDecoded.value) {
+        task.value.name = taskDataDecoded.value.name;
+        task.value.description = taskDataDecoded.value.description;
+        task.value.priority = taskDataDecoded.value.priority.toString();
+        task.value.dueDate = new Date(taskDataDecoded.value.dueDate)
+          .toISOString()
+          .substr(0, 10);
+        selectedMember.value = taskDataDecoded.value.owner || "";
+      }
+      if (teamId) {
+        fetchMembers(teamId);
+      } else {
+        loading.value = false;
+      }
+    });
+
+    const taskFormData = computed(() => {
+      const dueDateISO = new Date(task.value.dueDate).toISOString();
       return {
-        name: taskName.value,
-        priority: priority.value,
-        dueDate: dueDateTimestamp,
+        name: task.value.name,
+        description: task.value.description,
+        priority: task.value.priority,
+        dueDate: dueDateISO,
         team: teamId,
       };
     });
 
     const formattedTaskData = computed((): string => {
-      const data: TaskData = { ...taskData.value };
+      const data: TaskData = { ...taskFormData.value };
       if (selectedMember.value) {
         data.owner = selectedMember.value;
       }
@@ -131,10 +169,10 @@ export default defineComponent({
       try {
         const token = localStorage.getItem("token") || "";
 
-        if (priority.value) {
+        if (task.value.priority) {
           await axiosInstance.patch(
-            `/tasks/${taskId}/priority`,
-            { priority: priority.value },
+            `/tasks/${taskDataDecoded.value._id}/priority`,
+            { priority: task.value.priority },
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -143,10 +181,10 @@ export default defineComponent({
           );
         }
 
-        if (dueDate.value) {
+        if (task.value.dueDate) {
           await axiosInstance.patch(
-            `/tasks/${taskId}/dueDate`,
-            { dueDate: new Date(dueDate.value).getTime() },
+            `/tasks/${taskDataDecoded.value._id}/dueDate`,
+            { dueDate: new Date(task.value.dueDate).getTime() },
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -157,7 +195,7 @@ export default defineComponent({
 
         if (selectedMember.value) {
           await axiosInstance.patch(
-            `/tasks/${taskId}/owner`,
+            `/tasks/${taskDataDecoded.value._id}/owner`,
             { ownerId: selectedMember.value },
             {
               headers: {
@@ -168,28 +206,15 @@ export default defineComponent({
         }
 
         console.log("Tâche mise à jour avec succès");
-        router.push("/"); // Redirection vers la page principale après la mise à jour de la tâche
+        router.push("/");
       } catch (error) {
         console.error("Erreur lors de la mise à jour de la tâche", error);
         snackbar.value = true;
       }
     };
 
-    onMounted(() => {
-      if (taskId) {
-        fetchTaskDetails(taskId);
-      }
-      if (teamId) {
-        fetchMembers(teamId);
-      } else {
-        loading.value = false;
-      }
-    });
-
     return {
-      taskName,
-      priority,
-      dueDate,
+      task,
       updateTask,
       selectedMember,
       selectMember,
@@ -197,7 +222,6 @@ export default defineComponent({
       loading,
       error,
       snackbar,
-      taskData,
       formattedTaskData,
     };
   },

@@ -158,8 +158,9 @@ export default defineComponent({
       const path = `/team/${teamData}/edit`;
       this.$router.push(path);
     },
-    navigateToUpdateTask(taskId: string) {
-      const path = `/team/${this.team._id}/task/update/${taskId}`;
+    navigateToUpdateTask(task: Task) {
+      const taskData = btoa(encodeURIComponent(JSON.stringify(task)));
+      const path = `/team/${this.team._id}/task/update/${taskData}`;
       this.$router.push(path);
     },
     openTaskDialog(task: Task) {
