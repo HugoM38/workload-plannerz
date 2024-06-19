@@ -17,13 +17,13 @@
     <v-menu
       v-model="menu"
       :close-on-content-click="false"
-      :nudge-right="40"
       transition="scale-transition"
       offset-y
-      min-width="auto"
+      attach="body"
     >
-      <template v-slot:activator>
+      <template v-slot:activator="{}">
         <v-text-field
+          ref="dateField"
           v-model="formattedDueDate"
           label="Date d'échéance"
           outlined
@@ -33,7 +33,7 @@
       </template>
       <v-date-picker
         v-model="localDueDate"
-        @input="menu = false"
+        @input="handleDateInput"
       ></v-date-picker>
     </v-menu>
 
@@ -53,4 +53,8 @@
   src="@/controllers/TaskControllers/TaskFormController.ts"
 ></script>
 
-<style scoped></style>
+<style scoped>
+.v-menu__content {
+  min-width: 290px !important;
+}
+</style>

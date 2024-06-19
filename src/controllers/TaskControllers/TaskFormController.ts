@@ -41,6 +41,7 @@ export default defineComponent({
       priorityLevels: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       error: "",
       snackbar: false,
+      dateFieldRect: null as DOMRect | null,
     };
   },
   watch: {
@@ -69,6 +70,18 @@ export default defineComponent({
   methods: {
     toggleMenu() {
       this.menu = !this.menu;
+      if (this.menu && this.$refs.dateField) {
+        this.dateFieldRect = (
+          this.$refs.dateField as HTMLElement
+        ).getBoundingClientRect();
+        this.$nextTick(() => {
+          this.positionMenu();
+        });
+      }
+    },
+    handleDateInput(value: Date) {
+      this.localDueDate = value;
+      this.menu = false;
     },
     handleInput(event: Event) {
       const input = event.target as HTMLInputElement;
@@ -88,6 +101,19 @@ export default defineComponent({
       return new Date(
         Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
       ).toLocaleDateString();
+    },
+    positionMenu() {
+      if (this.dateFieldRect) {
+        const menuContent = document.querySelector(
+          ".v-menu__content"
+        ) as HTMLElement;
+        if (menuContent) {
+          menuContent.style.position = "absolute";
+          menuContent.style.top = `${this.dateFieldRect.bottom}px`;
+          menuContent.style.left = `${this.dateFieldRect.left}px`;
+          menuContent.style.minWidth = "290px";
+        }
+      }
     },
   },
 });
