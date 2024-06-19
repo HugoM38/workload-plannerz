@@ -78,7 +78,6 @@ export default defineComponent({
           },
         }
       );
-      console.log(response.data);
       this.memberWorkload = response.data.workload;
     } catch (error) {
       this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);

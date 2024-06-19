@@ -1,4 +1,4 @@
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "TaskForm",
@@ -12,7 +12,7 @@ export default defineComponent({
       required: true,
     },
     priority: {
-      type: [String, Number],
+      type: Number,
       required: true,
     },
     dueDate: {
@@ -21,7 +21,7 @@ export default defineComponent({
     },
     timeEstimation: {
       type: Number,
-      required: false,
+      required: true,
       default: 0,
     },
     isUpdateMode: {
@@ -29,38 +29,67 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props, { emit }) {
-    const localTaskName = ref(props.taskName);
-    const localTaskDescription = ref(props.taskDescription);
-    const localPriority = ref(props.priority);
-    const localDueDate = ref(new Date(props.dueDate)); // Convertir la chaîne en objet Date
-    const formattedDueDate = ref(localDueDate.value.toLocaleDateString());
-    const localTimeEstimation = ref(props.timeEstimation);
-    const menu = ref(false);
-    const priorityLevels = ref([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-
-    watch(localTaskName, (newValue) => emit("update:taskName", newValue));
-    watch(localTaskDescription, (newValue) =>
-      emit("update:taskDescription", newValue)
-    );
-    watch(localPriority, (newValue) => emit("update:priority", newValue));
-    watch(localDueDate, (newValue) => {
-      emit("update:dueDate", newValue.toISOString().substr(0, 10)); // Convertir l'objet Date en chaîne ISO
-      formattedDueDate.value = newValue.toLocaleDateString();
-    });
-    watch(localTimeEstimation, (newValue) =>
-      emit("update:timeEstimation", newValue)
-    );
-
+  data() {
     return {
-      localTaskName,
-      localTaskDescription,
-      localPriority,
-      localDueDate,
-      formattedDueDate,
-      localTimeEstimation,
-      menu,
-      priorityLevels,
+      localTaskName: this.taskName,
+      localTaskDescription: this.taskDescription,
+      localPriority: this.priority,
+      localDueDate: new Date(this.dueDate),
+      formattedDueDate: this.formatDate(new Date(this.dueDate)),
+      localTimeEstimation: this.timeEstimation,
+      menu: false,
+      priorityLevels: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      error: "",
+      snackbar: false,
     };
+  },
+  watch: {
+    localTaskName(newValue) {
+      this.$emit("update:taskName", newValue);
+    },
+    localTaskDescription(newValue) {
+      this.$emit("update:taskDescription", newValue);
+    },
+    localPriority(newValue) {
+      this.$emit("update:priority", newValue);
+    },
+    localDueDate(newValue) {
+      const adjustedDate = this.adjustDate(newValue);
+      this.$emit("update:dueDate", adjustedDate.toISOString().substr(0, 10));
+      this.formattedDueDate = this.formatDate(adjustedDate);
+    },
+    localTimeEstimation(newValue) {
+      const validValue = Math.max(0, Math.floor(newValue));
+      if (validValue !== newValue) {
+        this.localTimeEstimation = validValue;
+      }
+      this.$emit("update:timeEstimation", validValue);
+    },
+  },
+  methods: {
+    toggleMenu() {
+      this.menu = !this.menu;
+    },
+    handleInput(event: Event) {
+      const input = event.target as HTMLInputElement;
+      const value = parseInt(input.value, 10);
+      if (!isNaN(value) && value >= 0) {
+        this.localTimeEstimation = value;
+      } else {
+        input.value = this.localTimeEstimation.toString();
+      }
+    },
+    adjustDate(date: Date) {
+      // Utiliser des méthodes UTC pour ajuster la date
+      return new Date(
+        Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+      );
+    },
+    formatDate(date: Date) {
+      // Formater la date sans tenir compte du fuseau horaire
+      return new Date(
+        Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+      ).toLocaleDateString();
+    },
   },
 });

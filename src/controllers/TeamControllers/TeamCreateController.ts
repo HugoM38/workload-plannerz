@@ -27,7 +27,6 @@ export default defineComponent({
           name: this.teamName,
           owner: logged_user._id,
         };
-        console.log("Créer le groupe", form);
         await axiosInstance.post("teams/create", form, {
           headers: {
             Authorization: `Bearer ${token}`,

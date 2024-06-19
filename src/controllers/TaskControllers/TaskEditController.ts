@@ -39,7 +39,12 @@ export default defineComponent({
   },
   computed: {
     taskFormData() {
-      const dueDateTimestamp = new Date(this.task.dueDate).setHours(0, 0, 0, 0);
+      const dueDateTimestamp = new Date(this.task.dueDate).setUTCHours(
+        0,
+        0,
+        0,
+        0
+      );
       return {
         name: this.task.name,
         priority: this.task.priority,

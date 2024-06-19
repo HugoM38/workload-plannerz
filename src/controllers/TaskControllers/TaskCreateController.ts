@@ -97,7 +97,6 @@ export default defineComponent({
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("Tâche créée avec succès:", response.data);
         this.$router.push("/");
       } catch (error) {
         console.error("Erreur lors de la création de la tâche", error);

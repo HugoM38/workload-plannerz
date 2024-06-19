@@ -1,6 +1,5 @@
 <template>
   <v-form>
-    <!-- Nom de la tâche -->
     <v-text-field
       v-if="!isUpdateMode"
       v-model="localTaskName"
@@ -8,7 +7,6 @@
       outlined
     ></v-text-field>
 
-    <!-- Niveau de priorité -->
     <v-select
       v-model="localPriority"
       :items="priorityLevels"
@@ -16,7 +14,6 @@
       outlined
     ></v-select>
 
-    <!-- Date d'échéance -->
     <v-menu
       v-model="menu"
       :close-on-content-click="false"
@@ -25,15 +22,13 @@
       offset-y
       min-width="auto"
     >
-      <template v-slot:activator="{ on, attrs }">
+      <template v-slot:activator>
         <v-text-field
           v-model="formattedDueDate"
           label="Date d'échéance"
           outlined
           readonly
-          v-bind="attrs"
-          v-on="on"
-          @click="menu = !menu"
+          @click="toggleMenu"
         ></v-text-field>
       </template>
       <v-date-picker
@@ -42,13 +37,13 @@
       ></v-date-picker>
     </v-menu>
 
-    <!-- Estimation du temps en heures -->
     <v-text-field
       v-model="localTimeEstimation"
       label="Estimation du temps (heures)"
       outlined
       type="number"
       min="0"
+      @input="handleInput"
     ></v-text-field>
   </v-form>
 </template>

@@ -83,7 +83,6 @@ export default defineComponent({
       this.nonMembers = members;
     },
     async editGroup() {
-      console.log(`Modifier le groupe: ${this.team.name}`);
       try {
         const token: string = localStorage.getItem("token") || "";
         await axiosInstance.patch(
