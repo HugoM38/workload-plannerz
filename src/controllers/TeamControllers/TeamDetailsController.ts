@@ -20,17 +20,43 @@ export default defineComponent({
       taskDialog: false,
       error: "",
       snackbar: false,
+      sortOption: "dueDate", // Default sorting option
+      hideCompleted: false, // Hide completed tasks option
     };
   },
   computed: {
     sortedUserTasks() {
-      return [...this.userTasks].sort((a, b) => a.dueDate - b.dueDate);
+      let tasks = [...this.userTasks];
+      if (this.hideCompleted) {
+        tasks = tasks.filter((task) => task.state !== "Terminée");
+      }
+      return tasks.sort((a, b) => {
+        return this.sortOption === "dueDate"
+          ? a.dueDate - b.dueDate
+          : b.priority - a.priority;
+      });
     },
     sortedUnownedTasks() {
-      return [...this.unownedTasks].sort((a, b) => a.dueDate - b.dueDate);
+      let tasks = [...this.unownedTasks];
+      if (this.hideCompleted) {
+        tasks = tasks.filter((task) => task.state !== "Terminée");
+      }
+      return tasks.sort((a, b) => {
+        return this.sortOption === "dueDate"
+          ? a.dueDate - b.dueDate
+          : b.priority - a.priority;
+      });
     },
     sortedOwnedTasks() {
-      return [...this.ownedTasks].sort((a, b) => a.dueDate - b.dueDate);
+      let tasks = [...this.ownedTasks];
+      if (this.hideCompleted) {
+        tasks = tasks.filter((task) => task.state !== "Terminée");
+      }
+      return tasks.sort((a, b) => {
+        return this.sortOption === "dueDate"
+          ? a.dueDate - b.dueDate
+          : b.priority - a.priority;
+      });
     },
   },
   async mounted() {

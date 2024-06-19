@@ -86,43 +86,63 @@
                 </v-col>
               </v-row>
               <v-col cols="12">
+                <v-radio-group v-model="sortOption">
+                  <v-radio
+                    label="Trier par date de rendu"
+                    value="dueDate"
+                  ></v-radio>
+                  <v-radio
+                    label="Trier par priorité"
+                    value="priority"
+                  ></v-radio>
+                </v-radio-group>
+                <v-checkbox
+                  v-model="hideCompleted"
+                  label="Cacher les tâches terminées"
+                ></v-checkbox>
+              </v-col>
+              <v-col cols="12">
                 <v-row justify="center">
                   <v-col cols="12" md="6" lg="4">
                     <v-card class="task-card my-tasks-card">
                       <v-card-title>Mes Tâches</v-card-title>
                       <v-card-text class="task-card-content">
                         <v-list dense class="task-list">
-                          <v-list-item
+                          <template
                             v-for="(task, index) in sortedUserTasks"
                             :key="index"
-                            :class="
-                              task.state === 'En cours'
-                                ? 'task-in-progress'
-                                : 'task-completed'
-                            "
-                            class="task-list-item"
-                            @click="openTaskDialog(task)"
                           >
-                            <v-row align="center" no-gutters>
-                              <v-col>
-                                <v-list-item-content>
-                                  <v-list-item-title>
-                                    {{ task.name }}
-                                  </v-list-item-title>
-                                  <v-list-item-subtitle>
-                                    Priorité: {{ task.priority }}
-                                  </v-list-item-subtitle>
-                                </v-list-item-content>
-                              </v-col>
-                              <v-col cols="auto">
-                                <v-list-item-content>
-                                  <v-list-item-subtitle>
-                                    {{ formatDate(task.dueDate) }}
-                                  </v-list-item-subtitle>
-                                </v-list-item-content>
-                              </v-col>
-                            </v-row>
-                          </v-list-item>
+                            <v-list-item
+                              v-if="!hideCompleted || task.state !== 'Validée'"
+                              :class="
+                                task.state === 'En cours'
+                                  ? 'task-in-progress'
+                                  : 'task-completed'
+                              "
+                              class="task-list-item"
+                              @click="openTaskDialog(task)"
+                            >
+                              <v-row align="center" no-gutters>
+                                <v-col>
+                                  <v-list-item-content>
+                                    <v-list-item-title>
+                                      {{ task.name }}
+                                    </v-list-item-title>
+                                    <v-list-item-subtitle>
+                                      Priorité: {{ task.priority }}
+                                    </v-list-item-subtitle>
+                                  </v-list-item-content>
+                                </v-col>
+                                <v-col cols="auto">
+                                  <v-list-item-content>
+                                    <v-list-item-subtitle>
+                                      {{ formatDate(task.dueDate) }}
+                                    </v-list-item-subtitle>
+                                  </v-list-item-content>
+                                </v-col>
+                              </v-row>
+                            </v-list-item>
+                          </template>
                         </v-list>
                       </v-card-text>
                     </v-card>
@@ -132,37 +152,41 @@
                       <v-card-title>Tâches en Attente</v-card-title>
                       <v-card-text class="task-card-content">
                         <v-list dense class="task-list">
-                          <v-list-item
+                          <template
                             v-for="(task, index) in sortedUnownedTasks"
                             :key="index"
-                            :class="
-                              task.state === 'En cours'
-                                ? 'task-in-progress'
-                                : 'task-completed'
-                            "
-                            class="task-list-item"
-                            @click="openTaskDialog(task)"
                           >
-                            <v-row align="center" no-gutters>
-                              <v-col>
-                                <v-list-item-content>
-                                  <v-list-item-title>
-                                    {{ task.name }}
-                                  </v-list-item-title>
-                                  <v-list-item-subtitle>
-                                    Priorité: {{ task.priority }}
-                                  </v-list-item-subtitle>
-                                </v-list-item-content>
-                              </v-col>
-                              <v-col cols="auto">
-                                <v-list-item-content>
-                                  <v-list-item-subtitle>
-                                    {{ formatDate(task.dueDate) }}
-                                  </v-list-item-subtitle>
-                                </v-list-item-content>
-                              </v-col>
-                            </v-row>
-                          </v-list-item>
+                            <v-list-item
+                              v-if="!hideCompleted || task.state !== 'Validée'"
+                              :class="
+                                task.state === 'En cours'
+                                  ? 'task-in-progress'
+                                  : 'task-completed'
+                              "
+                              class="task-list-item"
+                              @click="openTaskDialog(task)"
+                            >
+                              <v-row align="center" no-gutters>
+                                <v-col>
+                                  <v-list-item-content>
+                                    <v-list-item-title>
+                                      {{ task.name }}
+                                    </v-list-item-title>
+                                    <v-list-item-subtitle>
+                                      Priorité: {{ task.priority }}
+                                    </v-list-item-subtitle>
+                                  </v-list-item-content>
+                                </v-col>
+                                <v-col cols="auto">
+                                  <v-list-item-content>
+                                    <v-list-item-subtitle>
+                                      {{ formatDate(task.dueDate) }}
+                                    </v-list-item-subtitle>
+                                  </v-list-item-content>
+                                </v-col>
+                              </v-row>
+                            </v-list-item>
+                          </template>
                         </v-list>
                       </v-card-text>
                     </v-card>
@@ -172,37 +196,41 @@
                       <v-card-title>Tâches Assignées</v-card-title>
                       <v-card-text class="task-card-content">
                         <v-list dense class="task-list">
-                          <v-list-item
+                          <template
                             v-for="(task, index) in sortedOwnedTasks"
                             :key="index"
-                            :class="
-                              task.state === 'En cours'
-                                ? 'task-in-progress'
-                                : 'task-completed'
-                            "
-                            class="task-list-item"
-                            @click="openTaskDialog(task)"
                           >
-                            <v-row align="center" no-gutters>
-                              <v-col>
-                                <v-list-item-content>
-                                  <v-list-item-title>
-                                    {{ task.name }}
-                                  </v-list-item-title>
-                                  <v-list-item-subtitle>
-                                    Priorité: {{ task.priority }}
-                                  </v-list-item-subtitle>
-                                </v-list-item-content>
-                              </v-col>
-                              <v-col cols="auto">
-                                <v-list-item-content>
-                                  <v-list-item-subtitle>
-                                    {{ formatDate(task.dueDate) }}
-                                  </v-list-item-subtitle>
-                                </v-list-item-content>
-                              </v-col>
-                            </v-row>
-                          </v-list-item>
+                            <v-list-item
+                              v-if="!hideCompleted || task.state !== 'Validée'"
+                              :class="
+                                task.state === 'En cours'
+                                  ? 'task-in-progress'
+                                  : 'task-completed'
+                              "
+                              class="task-list-item"
+                              @click="openTaskDialog(task)"
+                            >
+                              <v-row align="center" no-gutters>
+                                <v-col>
+                                  <v-list-item-content>
+                                    <v-list-item-title>
+                                      {{ task.name }}
+                                    </v-list-item-title>
+                                    <v-list-item-subtitle>
+                                      Priorité: {{ task.priority }}
+                                    </v-list-item-subtitle>
+                                  </v-list-item-content>
+                                </v-col>
+                                <v-col cols="auto">
+                                  <v-list-item-content>
+                                    <v-list-item-subtitle>
+                                      {{ formatDate(task.dueDate) }}
+                                    </v-list-item-subtitle>
+                                  </v-list-item-content>
+                                </v-col>
+                              </v-row>
+                            </v-list-item>
+                          </template>
                         </v-list>
                       </v-card-text>
                     </v-card>
