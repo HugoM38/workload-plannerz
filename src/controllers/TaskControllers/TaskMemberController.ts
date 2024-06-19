@@ -15,8 +15,8 @@ export default defineComponent({
       taskDialog: false,
       error: "",
       snackbar: false,
-      sortOption: "dueDate", // Default sorting option
-      hideCompleted: false, // Hide completed tasks option
+      sortOption: "dueDate",
+      hideCompleted: false,
     };
   },
   computed: {
@@ -72,6 +72,10 @@ export default defineComponent({
     openTaskDialog(task: Task) {
       this.selectedTask = task;
       this.taskDialog = true;
+    },
+    navigateToUpdateTask(taskId: string) {
+      const path = `/team/${this.$route.params.teamId}/task/update/${taskId}`;
+      this.$router.push(path);
     },
     async closeTask(taskId: string) {
       this.taskDialog = false;

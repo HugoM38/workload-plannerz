@@ -118,6 +118,11 @@
               </v-list-item-subtitle>
             </v-card-text>
             <v-card-actions>
+              <v-btn
+                color="primary"
+                @click="navigateToUpdateTask(selectedTask!._id)"
+                >Modifier</v-btn
+              >
               <v-spacer></v-spacer>
               <v-btn
                 color="green darken-1"
