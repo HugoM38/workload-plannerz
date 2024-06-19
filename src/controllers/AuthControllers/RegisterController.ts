@@ -1,32 +1,37 @@
 import { defineComponent, reactive } from "vue";
-import { useRouter } from "vue-router";
 import axiosInstance from "@/axiosConfig";
+import { handleAxiosError } from "@/utils/errorHandler";
+import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
+import { AxiosError } from "axios";
 
 export default defineComponent({
   name: "RegisterController",
-  setup() {
-    const router = useRouter();
-    const form = reactive({
-      firstname: "",
-      lastname: "",
-      job: "",
-      email: "",
-      password: "",
-    });
-
-    const register = async () => {
-      try {
-        const response = await axiosInstance.post("/auth/signup", form);
-        console.log("Registration successful:", response.data);
-        router.push("/login");
-      } catch (error) {
-        console.error("Registration error:", error);
-      }
-    };
-
+  data() {
     return {
-      form,
-      register,
+      form: reactive({
+        firstname: "",
+        lastname: "",
+        job: "",
+        email: "",
+        password: "",
+      }),
+      error: "",
+      snackbar: false,
     };
+  },
+  methods: {
+    async register() {
+      try {
+        const response = await axiosInstance.post("/auth/signup", this.form);
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        this.$router.push("/").then(() => {
+          window.location.reload();
+        });
+      } catch (error) {
+        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.snackbar = true;
+      }
+    },
   },
 });

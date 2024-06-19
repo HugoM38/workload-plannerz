@@ -3,6 +3,8 @@ import { Task } from "@/models/Task";
 import axiosInstance from "@/axiosConfig";
 import { User } from "@/models/User";
 import { AxiosError } from "axios";
+import { handleAxiosError } from "@/utils/errorHandler";
+import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
 
 export default defineComponent({
   name: "TaskMemberPage",
@@ -17,7 +19,7 @@ export default defineComponent({
       snackbar: false,
       sortOption: "dueDate",
       hideCompleted: false,
-      memberWorkload: 0, // Variable to store member's workload
+      memberWorkload: 0,
     };
   },
   computed: {
@@ -46,7 +48,8 @@ export default defineComponent({
       });
       this.member = response.data;
     } catch (error) {
-      this.handleError(error as AxiosError);
+      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+      this.snackbar = true;
     }
 
     try {
@@ -61,7 +64,8 @@ export default defineComponent({
         (task: Task) => task.owner === memberId
       );
     } catch (error) {
-      this.handleError(error as AxiosError);
+      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+      this.snackbar = true;
     }
 
     try {
@@ -77,7 +81,8 @@ export default defineComponent({
       console.log(response.data);
       this.memberWorkload = response.data.workload;
     } catch (error) {
-      this.handleError(error as AxiosError);
+      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+      this.snackbar = true;
     }
   },
   methods: {
@@ -98,7 +103,7 @@ export default defineComponent({
       this.taskDialog = false;
       try {
         const token: string = localStorage.getItem("token") || "";
-        const response = await axiosInstance.patch(
+        await axiosInstance.patch(
           `/tasks/${taskId}/validate`,
           {},
           {
@@ -107,7 +112,6 @@ export default defineComponent({
             },
           }
         );
-        console.log(response.data);
 
         this.tasks = this.tasks.map((task) => {
           if (task._id === taskId) {
@@ -116,18 +120,9 @@ export default defineComponent({
           return task;
         });
       } catch (error) {
-        this.handleError(error as AxiosError);
+        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.snackbar = true;
       }
-    },
-    handleError(error: AxiosError<any>) {
-      if (error.response && error.response.data) {
-        this.error = error.response.data.message || "An error occurred";
-      } else if (error.request) {
-        this.error = "No response received from server";
-      } else {
-        this.error = error.message || "An error occurred";
-      }
-      this.snackbar = true;
     },
   },
 });

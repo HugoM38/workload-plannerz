@@ -50,7 +50,7 @@
                       >Charge de travail totale de l'équipe</v-list-item-title
                     >
                     <v-list-item-subtitle
-                      >{{ teamWorkload }} heures</v-list-item-subtitle
+                      >{{ teamWorkload }} heure(s)</v-list-item-subtitle
                     >
                   </v-list-item-content>
                 </v-list-item>

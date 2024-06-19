@@ -26,7 +26,7 @@
                       >Charge de travail de l'utilisateur</v-list-item-title
                     >
                     <v-list-item-subtitle
-                      >{{ memberWorkload }} heures</v-list-item-subtitle
+                      >{{ memberWorkload }} heure(s)</v-list-item-subtitle
                     >
                   </v-list-item-content>
                 </v-list-item>

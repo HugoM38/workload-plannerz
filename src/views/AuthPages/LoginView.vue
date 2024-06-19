@@ -44,6 +44,10 @@
           </v-card>
         </v-col>
       </v-row>
+      <v-snackbar v-model="snackbar" :timeout="6000" top>
+        {{ error }}
+        <v-btn color="red" @click="snackbar = false">Fermer</v-btn>
+      </v-snackbar>
     </v-container>
     <router-view />
   </v-app>

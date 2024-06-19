@@ -3,6 +3,8 @@ import ListTeams from "@/views/HomePages/ListTeams.vue";
 import axiosInstance from "@/axiosConfig";
 import { Team } from "@/models/Team";
 import { AxiosError } from "axios";
+import { handleAxiosError } from "@/utils/errorHandler";
+import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
 
 export default defineComponent({
   name: "HomePage",
@@ -26,14 +28,7 @@ export default defineComponent({
       });
       this.listItems = response.data;
     } catch (error) {
-      const errorResponse = error as AxiosError<any>;
-      if (errorResponse.response && errorResponse.response.data) {
-        this.error = errorResponse.response.data.message || "An error occurred";
-      } else if (errorResponse.request) {
-        this.error = "No response received from server";
-      } else {
-        this.error = errorResponse.message || "An error occurred";
-      }
+      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
       this.snackbar = true;
     }
   },

@@ -1,34 +1,34 @@
 import { defineComponent, reactive } from "vue";
-import { useRouter } from "vue-router";
 import axiosInstance from "@/axiosConfig";
+import { handleAxiosError } from "@/utils/errorHandler";
+import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
+import { AxiosError } from "axios";
 
 export default defineComponent({
   name: "LoginController",
-  setup() {
-    const router = useRouter();
-    const form = reactive({
-      email: "",
-      password: "",
-    });
-
-    const login = async () => {
+  data() {
+    return {
+      form: reactive({
+        email: "",
+        password: "",
+      }),
+      error: "",
+      snackbar: false,
+    };
+  },
+  methods: {
+    async login() {
       try {
-        console.log("Sending login request", form);
-        const response = await axiosInstance.post("/auth/signin", form);
-        console.log("Login successful:", response.data);
+        const response = await axiosInstance.post("/auth/signin", this.form);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
-        router.push("/").then(() => {
+        this.$router.push("/").then(() => {
           window.location.reload();
         });
       } catch (error) {
-        console.error("Login error:", error);
+        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.snackbar = true;
       }
-    };
-
-    return {
-      form,
-      login,
-    };
+    },
   },
 });

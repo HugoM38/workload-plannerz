@@ -4,6 +4,8 @@ import axiosInstance from "@/axiosConfig";
 import { Team } from "@/models/Team";
 import { User } from "@/models/User";
 import { AxiosError } from "axios";
+import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
+import { handleAxiosError } from "@/utils/errorHandler";
 
 export default defineComponent({
   name: "TeamDetailsPage",
@@ -20,9 +22,9 @@ export default defineComponent({
       taskDialog: false,
       error: "",
       snackbar: false,
-      sortOption: "dueDate", // Default sorting option
-      hideCompleted: false, // Hide completed tasks option
-      teamWorkload: 0, // Variable to store team's workload
+      sortOption: "dueDate",
+      hideCompleted: false,
+      teamWorkload: 0,
     };
   },
   computed: {
@@ -80,7 +82,8 @@ export default defineComponent({
       });
       this.owner = response.data;
     } catch (error) {
-      this.handleError(error as AxiosError);
+      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+      this.snackbar = true;
     }
 
     try {
@@ -95,7 +98,8 @@ export default defineComponent({
       );
       this.members = response.data;
     } catch (error) {
-      this.handleError(error as AxiosError);
+      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+      this.snackbar = true;
     }
 
     try {
@@ -116,7 +120,8 @@ export default defineComponent({
         (task: Task) => task.owner && task.owner !== userId
       );
     } catch (error) {
-      this.handleError(error as AxiosError);
+      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+      this.snackbar = true;
     }
 
     try {
@@ -129,10 +134,10 @@ export default defineComponent({
           },
         }
       );
-      console.log(response.data);
       this.teamWorkload = response.data.workload;
     } catch (error) {
-      this.handleError(error as AxiosError);
+      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+      this.snackbar = true;
     }
   },
   methods: {
@@ -175,7 +180,7 @@ export default defineComponent({
       this.taskDialog = false;
       try {
         const token: string = localStorage.getItem("token") || "";
-        const response = await axiosInstance.patch(
+        await axiosInstance.patch(
           `/tasks/${taskId}/validate`,
           {},
           {
@@ -184,7 +189,6 @@ export default defineComponent({
             },
           }
         );
-        console.log(response.data);
 
         this.tasks = this.tasks.map((task) => {
           if (task._id === taskId) {
@@ -193,18 +197,9 @@ export default defineComponent({
           return task;
         });
       } catch (error) {
-        this.handleError(error as AxiosError);
+        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.snackbar = true;
       }
-    },
-    handleError(error: AxiosError<any>) {
-      if (error.response && error.response.data) {
-        this.error = error.response.data.message || "An error occurred";
-      } else if (error.request) {
-        this.error = "No response received from server";
-      } else {
-        this.error = error.message || "An error occurred";
-      }
-      this.snackbar = true;
     },
   },
 });

@@ -5,6 +5,8 @@ import { User } from "@/models/User";
 import axiosInstance from "@/axiosConfig";
 import { Team } from "@/models/Team";
 import { AxiosError } from "axios";
+import { handleAxiosError } from "@/utils/errorHandler";
+import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
 
 export default defineComponent({
   name: "TeamEdit",
@@ -50,14 +52,7 @@ export default defineComponent({
       );
       this.teamMembers = response.data;
     } catch (error) {
-      const errorResponse = error as AxiosError<any>;
-      if (errorResponse.response && errorResponse.response.data) {
-        this.error = errorResponse.response.data.message || "An error occurred";
-      } else if (errorResponse.request) {
-        this.error = "No response received from server";
-      } else {
-        this.error = errorResponse.message || "An error occurred";
-      }
+      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
       this.snackbar = true;
     }
 
@@ -73,14 +68,7 @@ export default defineComponent({
       );
       this.nonMembers = response.data;
     } catch (error) {
-      const errorResponse = error as AxiosError<any>;
-      if (errorResponse.response && errorResponse.response.data) {
-        this.error = errorResponse.response.data.message || "An error occurred";
-      } else if (errorResponse.request) {
-        this.error = "No response received from server";
-      } else {
-        this.error = errorResponse.message || "An error occurred";
-      }
+      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
       this.snackbar = true;
     }
   },
@@ -98,7 +86,7 @@ export default defineComponent({
       console.log(`Modifier le groupe: ${this.team.name}`);
       try {
         const token: string = localStorage.getItem("token") || "";
-        const response = await axiosInstance.patch(
+        await axiosInstance.patch(
           `/teams/${this.team._id}/changeName`,
           { name: this.team.name },
           {
@@ -108,15 +96,7 @@ export default defineComponent({
           }
         );
       } catch (error) {
-        const errorResponse = error as AxiosError<any>;
-        if (errorResponse.response && errorResponse.response.data) {
-          this.error =
-            errorResponse.response.data.message || "An error occurred";
-        } else if (errorResponse.request) {
-          this.error = "No response received from server";
-        } else {
-          this.error = errorResponse.message || "An error occurred";
-        }
+        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
         this.snackbar = true;
       }
     },
