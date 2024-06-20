@@ -301,12 +301,14 @@
             </v-card-text>
             <v-card-actions>
               <v-btn
+                v-if="selectedTask?.state !== 'Validée'"
                 color="primary"
                 @click="navigateToUpdateTask(selectedTask!)"
                 >Modifier</v-btn
               >
               <v-spacer></v-spacer>
               <v-btn
+                v-if="selectedTask?.state !== 'Validée'"
                 color="green darken-1"
                 @click="closeTask(selectedTask!._id)"
                 >Terminer la tâche</v-btn
