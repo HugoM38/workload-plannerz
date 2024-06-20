@@ -88,12 +88,12 @@
 }
 
 .register-box {
-  padding: 24px; /* Augmenter le padding pour plus d'espace interne */
+  padding: 24px;
   border-radius: 12px;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   width: 100%;
-  max-width: 500px; /* Augmenter la largeur maximale */
+  max-width: 500px;
 }
 
 .register-box:hover {
@@ -109,7 +109,7 @@
 .input-field {
   background-color: var(--v-theme-surface);
   border-radius: 8px;
-  margin-bottom: 16px; /* Augmenter l'espacement entre les champs */
+  margin-bottom: 16px;
 }
 
 .register-btn {
@@ -118,7 +118,7 @@
   border-radius: 8px;
   padding: 10px;
   font-weight: bold;
-  margin-top: 24px; /* Augmenter l'espacement avant le bouton */
+  margin-top: 24px;
 }
 
 .switch-link {
@@ -126,7 +126,7 @@
   justify-content: center;
   align-items: center;
   color: var(--v-theme-on-accent);
-  margin-top: 24px; /* Augmenter l'espacement avant le lien de connexion */
+  margin-top: 24px;
 }
 
 .switch-link .v-btn {

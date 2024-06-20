@@ -33,7 +33,7 @@ const isTokenExpired = (token: string | null): boolean => {
     const currentTime = Date.now() / 1000;
     return exp < currentTime;
   } catch (error) {
-    console.error("Invalid token", error);
+    console.error("La session a expirée", error);
     return true;
   }
 };
