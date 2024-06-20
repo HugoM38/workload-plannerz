@@ -1,9 +1,13 @@
 import { defineComponent, reactive } from "vue";
-import axiosInstance from "@/axiosConfig";
 import TaskForm from "@/views/components/TaskForm.vue";
-import { AxiosError } from "axios";
-import { handleAxiosError } from "@/utils/errorHandler";
-import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
+import { getTeamMembers } from "@/services/teamService";
+import {
+  updateTaskName,
+  updateTaskPriority,
+  updateTaskDueDate,
+  updateTaskOwner,
+  updateTaskTimeEstimation,
+} from "@/services/taskService";
 import { User } from "@/models/User";
 
 export default defineComponent({
@@ -68,16 +72,9 @@ export default defineComponent({
   methods: {
     async fetchMembers(teamId: string) {
       try {
-        const token = localStorage.getItem("token") || "";
-        const response = await axiosInstance.get(`/teams/${teamId}/members`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        this.members = response.data;
+        this.members = await getTeamMembers(teamId);
       } catch (error) {
-        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.error = error as string;
         this.snackbar = true;
       } finally {
         this.loading = false;
@@ -88,49 +85,22 @@ export default defineComponent({
         this.selectedMember === member._id ? "" : member._id;
     },
     async updateTask() {
-      const token = localStorage.getItem("token") || "";
       const taskId = this.task._id;
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      };
 
       try {
-        await axiosInstance.patch(
-          `https://workload-plannerz-api-8f1fb119eefd.herokuapp.com/api/tasks/${taskId}/name`,
-          { name: this.task.name },
-          { headers }
-        );
-
-        await axiosInstance.patch(
-          `https://workload-plannerz-api-8f1fb119eefd.herokuapp.com/api/tasks/${taskId}/priority`,
-          { priority: this.task.priority },
-          { headers }
-        );
-
-        await axiosInstance.patch(
-          `https://workload-plannerz-api-8f1fb119eefd.herokuapp.com/api/tasks/${taskId}/dueDate`,
-          { dueDate: this.taskFormData.dueDate },
-          { headers }
-        );
+        await updateTaskName(taskId, this.task.name);
+        await updateTaskPriority(taskId, this.task.priority);
+        await updateTaskDueDate(taskId, this.taskFormData.dueDate);
 
         if (this.selectedMember) {
-          await axiosInstance.patch(
-            `https://workload-plannerz-api-8f1fb119eefd.herokuapp.com/api/tasks/${taskId}/owner`,
-            { ownerId: this.selectedMember },
-            { headers }
-          );
+          await updateTaskOwner(taskId, this.selectedMember);
         }
 
-        await axiosInstance.patch(
-          `https://workload-plannerz-api-8f1fb119eefd.herokuapp.com/api/tasks/${taskId}/timeEstimation`,
-          { timeEstimation: this.task.timeEstimation },
-          { headers }
-        );
+        await updateTaskTimeEstimation(taskId, this.task.timeEstimation);
 
         this.$router.push("/");
       } catch (error) {
-        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.error = error as string;
         this.snackbar = true;
       }
     },

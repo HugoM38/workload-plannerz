@@ -1,19 +1,9 @@
 import { defineComponent, reactive } from "vue";
-import axiosInstance from "@/axiosConfig";
 import TaskForm from "@/views/components/TaskForm.vue";
-import { AxiosError } from "axios";
-import { handleAxiosError } from "@/utils/errorHandler";
-import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
+import { createTask } from "@/services/taskService";
+import { getTeamMembers } from "@/services/teamService";
 import { User } from "@/models/User";
-
-interface TaskData {
-  name: string;
-  priority: string | number;
-  dueDate: number;
-  team: string | string[];
-  owner?: string | null;
-  timeEstimation: number;
-}
+import { TaskFormData } from "@/models/TaskFormData";
 
 export default defineComponent({
   name: "TaskPage",
@@ -58,15 +48,9 @@ export default defineComponent({
   methods: {
     async fetchMembers(teamId: string) {
       try {
-        const token = localStorage.getItem("token") || "";
-        const response = await axiosInstance.get(`/teams/${teamId}/members`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        this.members = response.data;
-      } catch (err) {
-        this.error = handleAxiosError(err as AxiosError<AxiosErrorResponse>);
+        this.members = await getTeamMembers(teamId);
+      } catch (error) {
+        this.error = error as string;
         this.snackbar = true;
       } finally {
         this.loading = false;
@@ -78,22 +62,16 @@ export default defineComponent({
     },
     async submitTask() {
       try {
-        const token = localStorage.getItem("token") || "";
-        const data: TaskData = { ...this.taskData };
+        const data: TaskFormData = { ...this.taskData };
         if (this.form.selectedMember) {
           data.owner = this.form.selectedMember;
         } else {
           delete data.owner;
         }
-        await axiosInstance.post(`/tasks/create`, data, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await createTask(data);
         this.$router.push("/");
       } catch (error) {
-        console.error("Erreur lors de la création de la tâche", error);
-        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.error = error as string;
         this.snackbar = true;
       }
     },

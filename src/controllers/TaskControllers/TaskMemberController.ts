@@ -1,10 +1,13 @@
 import { defineComponent } from "vue";
 import { Task } from "@/models/Task";
-import axiosInstance from "@/axiosConfig";
 import { User } from "@/models/User";
-import { AxiosError } from "axios";
-import { handleAxiosError } from "@/utils/errorHandler";
-import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
+import { getUserDetails } from "@/services/userService";
+import {
+  getTasksByTeam,
+  validateTask,
+  deleteTask,
+} from "@/services/taskService";
+import { getMemberWorkload } from "@/services/teamService";
 
 export default defineComponent({
   name: "TaskMemberPage",
@@ -36,51 +39,30 @@ export default defineComponent({
     },
   },
   async mounted() {
-    const teamId = this.$route.params.teamId;
-    const memberId = this.$route.params.memberId;
+    const teamId: string = this.$route.params.teamId as string;
+    const memberId: string = this.$route.params.memberId as string;
 
     try {
-      const token: string = localStorage.getItem("token") || "";
-      const response = await axiosInstance.get(`/users/${memberId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      this.member = response.data;
+      this.member = await getUserDetails(memberId);
     } catch (error) {
-      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+      this.error = error as string;
       this.snackbar = true;
     }
 
     try {
-      const token: string = localStorage.getItem("token") || "";
-      const response = await axiosInstance.get(`/tasks/${teamId}/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      this.tasks = response.data;
+      this.tasks = await getTasksByTeam(teamId);
       this.memberTasks = this.tasks.filter(
         (task: Task) => task.owner === memberId
       );
     } catch (error) {
-      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+      this.error = error as string;
       this.snackbar = true;
     }
 
     try {
-      const token: string = localStorage.getItem("token") || "";
-      const response = await axiosInstance.get(
-        `/teams/${teamId}/${memberId}/workload`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      this.memberWorkload = response.data.workload;
+      this.memberWorkload = await getMemberWorkload(teamId, memberId);
     } catch (error) {
-      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+      this.error = error as string;
       this.snackbar = true;
     }
   },
@@ -101,17 +83,7 @@ export default defineComponent({
     async closeTask(taskId: string) {
       this.taskDialog = false;
       try {
-        const token: string = localStorage.getItem("token") || "";
-        await axiosInstance.patch(
-          `/tasks/${taskId}/validate`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
+        await validateTask(taskId);
         this.tasks = this.tasks.map((task) => {
           if (task._id === taskId) {
             task.state = "Validée";
@@ -119,26 +91,20 @@ export default defineComponent({
           return task;
         });
       } catch (error) {
-        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.error = error as string;
         this.snackbar = true;
       }
     },
     async deleteTask(taskId: string) {
       this.taskDialog = false;
       try {
-        const token: string = localStorage.getItem("token") || "";
-        await axiosInstance.delete(`/tasks/${taskId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
+        await deleteTask(taskId);
         this.tasks = this.tasks.filter((task) => task._id !== taskId);
         this.memberTasks = this.memberTasks.filter(
           (task) => task._id !== taskId
         );
       } catch (error) {
-        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.error = error as string;
         this.snackbar = true;
       }
     },

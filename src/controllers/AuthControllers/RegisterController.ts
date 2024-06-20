@@ -1,5 +1,5 @@
 import { defineComponent, reactive } from "vue";
-import axiosInstance from "@/axiosConfig";
+import { registerUser } from "@/services/authService";
 import { handleAxiosError } from "@/utils/errorHandler";
 import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
 import { AxiosError } from "axios";
@@ -22,9 +22,9 @@ export default defineComponent({
   methods: {
     async register() {
       try {
-        const response = await axiosInstance.post("/auth/signup", this.form);
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
+        const response = await registerUser(this.form);
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("user", JSON.stringify(response.user));
         this.$router.push("/").then(() => {
           window.location.reload();
         });

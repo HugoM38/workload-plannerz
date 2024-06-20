@@ -1,11 +1,10 @@
 import { defineComponent } from "vue";
 import { Task } from "@/models/Task";
-import axiosInstance from "@/axiosConfig";
 import { Team } from "@/models/Team";
 import { User } from "@/models/User";
-import { AxiosError } from "axios";
-import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
-import { handleAxiosError } from "@/utils/errorHandler";
+import { getTeamDetails } from "@/services/teamService";
+import { validateTask, deleteTask } from "@/services/taskService";
+import TeamDetails from "@/models/TeamDetails";
 
 export default defineComponent({
   name: "TeamDetailsPage",
@@ -74,44 +73,14 @@ export default defineComponent({
     }
 
     try {
-      const token: string = localStorage.getItem("token") || "";
-      const response = await axiosInstance.get(`/users/${this.team.owner}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      this.owner = response.data;
-    } catch (error) {
-      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
-      this.snackbar = true;
-    }
+      const teamDetails: TeamDetails = await getTeamDetails(this.team);
+      this.owner = teamDetails.owner;
+      this.members = teamDetails.members;
+      this.tasks = teamDetails.tasks;
+      this.teamWorkload = teamDetails.workload;
 
-    try {
-      const token: string = localStorage.getItem("token") || "";
-      const response = await axiosInstance.get(
-        `/teams/${this.team._id}/members`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      this.members = response.data;
-    } catch (error) {
-      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
-      this.snackbar = true;
-    }
-
-    try {
       const user: User = JSON.parse(localStorage.getItem("user") || "");
       const userId = user._id;
-      const token: string = localStorage.getItem("token") || "";
-      const response = await axiosInstance.get(`/tasks/${this.team._id}/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      this.tasks = response.data;
       this.userTasks = this.tasks.filter((task: Task) => task.owner === userId);
       this.unownedTasks = this.tasks.filter(
         (task: Task) => task.owner === undefined
@@ -120,23 +89,7 @@ export default defineComponent({
         (task: Task) => task.owner && task.owner !== userId
       );
     } catch (error) {
-      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
-      this.snackbar = true;
-    }
-
-    try {
-      const token: string = localStorage.getItem("token") || "";
-      const response = await axiosInstance.get(
-        `/teams/${this.team._id}/workload`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      this.teamWorkload = response.data.workload;
-    } catch (error) {
-      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+      this.error = error as string;
       this.snackbar = true;
     }
   },
@@ -179,17 +132,7 @@ export default defineComponent({
     async closeTask(taskId: string) {
       this.taskDialog = false;
       try {
-        const token: string = localStorage.getItem("token") || "";
-        await axiosInstance.patch(
-          `/tasks/${taskId}/validate`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
+        await validateTask(taskId);
         this.tasks = this.tasks.map((task) => {
           if (task._id === taskId) {
             task.state = "Validée";
@@ -197,20 +140,14 @@ export default defineComponent({
           return task;
         });
       } catch (error) {
-        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.error = error as string;
         this.snackbar = true;
       }
     },
     async deleteTask(taskId: string) {
       this.taskDialog = false;
       try {
-        const token: string = localStorage.getItem("token") || "";
-        await axiosInstance.delete(`/tasks/${taskId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
+        await deleteTask(taskId);
         this.tasks = this.tasks.filter((task) => task._id !== taskId);
         this.userTasks = this.userTasks.filter((task) => task._id !== taskId);
         this.unownedTasks = this.unownedTasks.filter(
@@ -218,7 +155,7 @@ export default defineComponent({
         );
         this.ownedTasks = this.ownedTasks.filter((task) => task._id !== taskId);
       } catch (error) {
-        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.error = error as string;
         this.snackbar = true;
       }
     },

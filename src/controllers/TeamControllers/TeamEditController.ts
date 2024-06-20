@@ -2,11 +2,12 @@ import { defineComponent } from "vue";
 import TeamForm from "@/views/components/TeamForm.vue";
 import SearchList from "@/views/components/SearchList.vue";
 import { User } from "@/models/User";
-import axiosInstance from "@/axiosConfig";
 import { Team } from "@/models/Team";
-import { AxiosError } from "axios";
-import { handleAxiosError } from "@/utils/errorHandler";
-import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
+import {
+  getTeamMembers,
+  getNonMembers,
+  updateTeamName,
+} from "@/services/teamService";
 
 export default defineComponent({
   name: "TeamEdit",
@@ -41,34 +42,16 @@ export default defineComponent({
     }
 
     try {
-      const token: string = localStorage.getItem("token") || "";
-      const response = await axiosInstance.get(
-        `/teams/${this.team._id}/members`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      this.teamMembers = response.data;
+      this.teamMembers = await getTeamMembers(this.team._id);
     } catch (error) {
-      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+      this.error = error as string;
       this.snackbar = true;
     }
 
     try {
-      const token: string = localStorage.getItem("token") || "";
-      const response = await axiosInstance.get(
-        `/teams/${this.team._id}/nonMembers`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      this.nonMembers = response.data;
+      this.nonMembers = await getNonMembers(this.team._id);
     } catch (error) {
-      this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+      this.error = error as string;
       this.snackbar = true;
     }
   },
@@ -84,18 +67,9 @@ export default defineComponent({
     },
     async editGroup() {
       try {
-        const token: string = localStorage.getItem("token") || "";
-        await axiosInstance.patch(
-          `/teams/${this.team._id}/changeName`,
-          { name: this.team.name },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        await updateTeamName(this.team._id, this.team.name);
       } catch (error) {
-        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.error = error as string;
         this.snackbar = true;
       }
     },
