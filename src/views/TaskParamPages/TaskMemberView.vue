@@ -101,8 +101,15 @@
 
         <v-dialog v-model="taskDialog" max-width="500px">
           <v-card class="bg-accent text-on-accent">
-            <v-card-title class="headline">
-              {{ selectedTask?.name }}
+            <v-card-title class="d-flex justify-space-between align-center">
+              <span class="headline">{{ selectedTask?.name }}</span>
+              <v-btn
+                class="bg-accent"
+                icon
+                @click="deleteTask(selectedTask!._id)"
+              >
+                <v-icon color="red">mdi-delete</v-icon>
+              </v-btn>
             </v-card-title>
             <v-card-text>
               <v-list-item-subtitle>
@@ -111,28 +118,17 @@
               <v-list-item-subtitle>
                 État: {{ selectedTask?.state }}
               </v-list-item-subtitle>
-              <v-list-item-subtitle v-if="selectedTask?.owner">
-                Attribué à: {{ member.firstname }} {{ member.lastname }}
-              </v-list-item-subtitle>
               <v-list-item-subtitle>
                 Date de fin:
-                {{
-                  selectedTask?.dueDate
-                    ? formatDate(selectedTask.dueDate)
-                    : "Non définie"
-                }}
+                {{ formatDate(selectedTask!.dueDate) }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
                 Date de création:
-                {{
-                  selectedTask?.creationDate
-                    ? formatDate(selectedTask.creationDate)
-                    : "Non définie"
-                }}
+                {{ formatDate(selectedTask!.creationDate) }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
                 Temps estimé:
-                {{ selectedTask?.timeEstimation }} heure(s)
+                {{ selectedTask!.timeEstimation }} heure(s)
               </v-list-item-subtitle>
             </v-card-text>
             <v-card-actions>

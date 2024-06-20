@@ -201,5 +201,26 @@ export default defineComponent({
         this.snackbar = true;
       }
     },
+    async deleteTask(taskId: string) {
+      this.taskDialog = false;
+      try {
+        const token: string = localStorage.getItem("token") || "";
+        await axiosInstance.delete(`/tasks/${taskId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        this.tasks = this.tasks.filter((task) => task._id !== taskId);
+        this.userTasks = this.userTasks.filter((task) => task._id !== taskId);
+        this.unownedTasks = this.unownedTasks.filter(
+          (task) => task._id !== taskId
+        );
+        this.ownedTasks = this.ownedTasks.filter((task) => task._id !== taskId);
+      } catch (error) {
+        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.snackbar = true;
+      }
+    },
   },
 });
