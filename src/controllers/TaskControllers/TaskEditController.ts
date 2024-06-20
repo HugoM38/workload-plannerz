@@ -1,5 +1,5 @@
 import { defineComponent, reactive } from "vue";
-import TaskForm from "@/views/components/TaskForm.vue";
+import TaskForm from "@/views/Components/TaskForm.vue";
 import { getTeamMembers } from "@/services/teamService";
 import {
   updateTaskName,

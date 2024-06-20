@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import TeamForm from "@/views/components/TeamForm.vue";
+import TeamForm from "@/views/Components/TeamForm.vue";
 import router from "@/router";
 import { createTeam } from "@/services/teamService";
 

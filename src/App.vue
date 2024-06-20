@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Plannerz_Navbar from "./views/components/Navbar.vue";
+import Plannerz_Navbar from "@/views/Components/Navbar.vue";
 
 export default defineComponent({
   name: "App",

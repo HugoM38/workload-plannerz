@@ -105,12 +105,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.text-on-accent {
-  color: var(--v-theme-on-accent) !important;
-}
-</style>
+<style scoped src="@/styles/ComponentsStyles/Navbar.css"></style>

@@ -19,8 +19,4 @@
   src="@/controllers/TeamControllers/ListTeamsController.ts"
 ></script>
 
-<style scoped>
-.v-container {
-  padding: 16px;
-}
-</style>
+<style scoped src="@/styles/HomeStyles/ListTeams.css"></style>

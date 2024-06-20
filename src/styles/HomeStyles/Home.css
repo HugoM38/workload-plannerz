@@ -1,0 +1,27 @@
+.home-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background-color: var(--v-theme-primary);
+  }
+  
+  .centered-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .v-snackbar {
+    background-color: var(--v-theme-surface);
+    color: var(--v-theme-on-surface);
+  }
+  
+  .v-btn {
+    color: var(--v-theme-on-primary);
+    background-color: var(--v-theme-primary);
+  }

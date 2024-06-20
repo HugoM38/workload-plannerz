@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
-import TeamForm from "@/views/components/TeamForm.vue";
-import SearchList from "@/views/components/SearchList.vue";
+import TeamForm from "@/views/Components/TeamForm.vue";
+import SearchList from "@/views/Components/SearchList.vue";
 import { User } from "@/models/User";
 import { Team } from "@/models/Team";
 import {

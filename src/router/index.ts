@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomeView from "@/views/HomePages/HomeView.vue";
-import TeamCreateView from "@/views/TeamParamPages/TeamCreateView.vue";
-import TeamEditView from "@/views/TeamParamPages/TeamEditView.vue";
-import TaskCreateView from "@/views/TaskParamPages/TaskCreateView.vue";
-import TaskMemberView from "@/views/TaskParamPages/TaskMemberView.vue";
-import TaskEditView from "@/views/TaskParamPages/TaskEditView.vue";
+import TeamCreateView from "@/views/TeamPages/TeamCreateView.vue";
+import TeamEditView from "@/views/TeamPages/TeamEditView.vue";
+import TaskCreateView from "@/views/TaskPages/TaskCreateView.vue";
+import TaskMemberView from "@/views/TaskPages/TaskMemberView.vue";
+import TaskEditView from "@/views/TaskPages/TaskEditView.vue";
 import LoginView from "@/views/AuthPages/LoginView.vue";
 import RegisterView from "@/views/AuthPages/RegisterView.vue";
-import TeamDetailsView from "@/views/TeamParamPages/TeamDetailsView.vue";
+import TeamDetailsView from "@/views/TeamPages/TeamDetailsView.vue";
 import { isLoggedIn } from "@/models/UseUser";
 
 const routes: Array<RouteRecordRaw> = [

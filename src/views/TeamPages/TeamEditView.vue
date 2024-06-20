@@ -40,15 +40,4 @@
   src="@/controllers/TeamControllers/TeamEditController.ts"
 ></script>
 
-<style scoped>
-.btn {
-  border-radius: 8px;
-  font-weight: bold;
-  width: 10em;
-}
-
-h1,
-h2 {
-  margin-bottom: 20px;
-}
-</style>
+<style scoped src="@/styles/TeamStyles/TeamEdit.css"></style>

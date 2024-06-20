@@ -53,8 +53,4 @@
   src="@/controllers/TaskControllers/TaskFormController.ts"
 ></script>
 
-<style scoped>
-.v-menu__content {
-  min-width: 290px !important;
-}
-</style>
+<style scoped src="@/styles/ComponentsStyles/TaskForm.css"></style>

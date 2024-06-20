@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import ListItem from "@/views/components/ListItemTeams.vue";
+import ListItem from "@/views/Components/ListItemTeams.vue";
 import { Team } from "@/models/Team";
 
 export default defineComponent({

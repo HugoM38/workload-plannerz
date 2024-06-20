@@ -4,7 +4,7 @@
       <v-container>
         <v-card class="mt-5 bg-accent text-on-accent">
           <v-card-title>
-            <h1>Modifier une Tâche</h1>
+            <h1>Créer une Tâche</h1>
           </v-card-title>
           <v-card-text>
             <h2>Attribuer la Tâche à un Membre</h2>
@@ -19,7 +19,7 @@
                   v-for="(member, index) in members"
                   :key="index"
                   @click="selectMember(member)"
-                  :class="{ 'bg-primary': selectedMember === member._id }"
+                  :class="{ 'bg-primary': form.selectedMember === member._id }"
                   class="member-item"
                 >
                   <v-list-item-content>
@@ -36,17 +36,16 @@
 
             <v-form class="mt-5">
               <TaskForm
-                v-model:taskName="task.name"
-                v-model:priority="task.priority"
-                v-model:dueDate="task.dueDate"
-                v-model:timeEstimation="task.timeEstimation"
-                :showBasicFieldsOnly="true"
+                v-model:taskName="form.taskName"
+                v-model:priority="form.priority"
+                v-model:dueDate="form.dueDate"
+                v-model:timeEstimation="form.timeEstimation"
               />
             </v-form>
           </v-card-text>
           <v-card-actions class="justify-center">
-            <v-btn class="mt-3 btn bg-primary" @click="updateTask">
-              Mettre à jour la tâche
+            <v-btn class="mt-3 btn bg-primary" @click="submitTask">
+              Créer la tâche
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -62,36 +61,7 @@
 
 <script
   lang="ts"
-  src="@/controllers/TaskControllers/TaskEditController.ts"
+  src="@/controllers/TaskControllers/TaskCreateController.ts"
 ></script>
 
-<style scoped>
-.justify-center {
-  justify-content: center;
-}
-
-.btn {
-  border-radius: 8px;
-  font-weight: bold;
-  margin-bottom: 4em;
-}
-
-.member-list {
-  border-radius: 8px;
-  border: 4px solid #0f8b8d;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.align-center {
-  align-items: center;
-}
-
-.fill-height {
-  min-height: 100vh;
-}
-
-.text-center {
-  text-align: center;
-}
-</style>
+<style scoped src="@/styles/TaskStyles/TaskCreate.css"></style>

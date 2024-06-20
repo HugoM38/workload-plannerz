@@ -1,0 +1,7 @@
+.cursor-pointer {
+    cursor: pointer;
+  }
+  
+  .text-on-accent {
+    color: var(--v-theme-on-accent) !important;
+  }

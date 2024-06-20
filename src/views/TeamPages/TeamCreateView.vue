@@ -28,18 +28,4 @@
   src="@/controllers/TeamControllers/TeamCreateController.ts"
 ></script>
 
-<style scoped>
-.btn {
-  border-radius: 8px;
-  font-weight: bold;
-  width: 10em;
-}
-.title {
-  text-align: center;
-}
-@media (max-width: 600px) {
-  .btn {
-    width: 100%;
-  }
-}
-</style>
+<style scoped src="@/styles/TeamStyles/TeamCreate.css"></style>

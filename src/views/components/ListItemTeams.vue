@@ -12,23 +12,4 @@
   src="@/controllers/TeamControllers/ListItemTeamsController.ts"
 ></script>
 
-<style scoped>
-.team-card {
-  background-color: var(--v-theme-accent);
-  color: var(--v-theme-on-accent);
-}
-
-.v-card-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
-.v-card-actions {
-  justify-content: flex-end;
-}
-
-.v-btn {
-  color: var(--v-theme-on-primary);
-  background-color: var(--v-theme-primary);
-}
-</style>
+<style scoped src="@/styles/ComponentsStyles/ListItemTeams.css"></style>

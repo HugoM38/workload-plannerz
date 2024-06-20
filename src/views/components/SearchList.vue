@@ -87,33 +87,4 @@
   src="@/controllers/TeamControllers/SearchListController.ts"
 ></script>
 
-<style scoped>
-.member-card {
-  background-color: #c6c5c5;
-  border: 4px solid #dd7373;
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-.member-card-content {
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.member-list {
-  background-color: inherit;
-  padding: 8px;
-}
-
-.member-list-item {
-  margin-bottom: 8px;
-  padding: 8px;
-  border-radius: 8px;
-  background-color: #fff3e0;
-}
-
-h2 {
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-</style>
+<style scoped src="@/styles/ComponentsStyles/SearchList.css"></style>

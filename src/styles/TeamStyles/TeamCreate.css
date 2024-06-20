@@ -1,0 +1,13 @@
+.btn {
+    border-radius: 8px;
+    font-weight: bold;
+    width: 10em;
+  }
+  .title {
+    text-align: center;
+  }
+  @media (max-width: 600px) {
+    .btn {
+      width: 100%;
+    }
+  }
