@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript">
+    var l = window.location;
+    var base = '/workload-plannerz';
+    if (l.pathname.startsWith(base)) {
+      var path = l.pathname.slice(base.length);
+      window.location.replace(base + '/index.html?redirect=' + path + l.search + l.hash);
+    } else {
+      window.location.replace('/index.html?redirect=' + l.pathname + l.search + l.hash);
+    }
+  </script>
+</head>
+<body>
+  Redirection...
+</body>
+</html>
