@@ -81,6 +81,15 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  const redirect = to.query.redirect as string | undefined;
+  if (redirect) {
+    next({ path: redirect });
+  } else {
+    next();
+  }
+});
+
+router.beforeEach((to, from, next) => {
   const loggedIn = isLoggedIn.value;
 
   if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
