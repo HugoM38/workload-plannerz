@@ -1,8 +1,5 @@
 import { defineComponent, reactive } from "vue";
 import { registerUser } from "@/services/authService";
-import { handleAxiosError } from "@/utils/errorHandler";
-import { AxiosErrorResponse } from "@/models/AxiosErrorResponse";
-import { AxiosError } from "axios";
 
 export default defineComponent({
   name: "RegisterController",
@@ -29,7 +26,7 @@ export default defineComponent({
           window.location.reload();
         });
       } catch (error) {
-        this.error = handleAxiosError(error as AxiosError<AxiosErrorResponse>);
+        this.error = error as string;
         this.snackbar = true;
       }
     },
