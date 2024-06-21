@@ -68,6 +68,7 @@ export default defineComponent({
     async editGroup() {
       try {
         await updateTeamName(this.team._id, this.team.name);
+        this.$router.push("/");
       } catch (error) {
         this.error = error as string;
         this.snackbar = true;
