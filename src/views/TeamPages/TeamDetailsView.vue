@@ -163,7 +163,7 @@
                   </v-col>
                   <v-col cols="12" md="6" lg="4">
                     <v-card class="task-card unassigned-tasks-card">
-                      <v-card-title>Tâches en Attente</v-card-title>
+                      <v-card-title>Tâches non Assignées</v-card-title>
                       <v-card-text class="task-card-content">
                         <v-list dense class="task-list">
                           <template
